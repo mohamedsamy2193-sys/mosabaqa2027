@@ -73,7 +73,7 @@
           استمارة تسجيل متسابق جديد (١٤٤٨ هـ / ٢٠٢٧ م) — لجنة الزكاة بمحلة سبك
         </h2>
 
-        <form id="reg-form" class="space-y-4">
+        <form id="reg-form" onsubmit="event.preventDefault(); return false;" class="space-y-4">
           <div>
             <label class="block text-sm font-bold text-gray-700 mb-1">اسم المتسابق رباعياً *</label>
             <input type="text" id="fullName" required placeholder="مثال: محمد أحمد محمود علي"
@@ -136,7 +136,7 @@
             </label>
           </div>
 
-          <button type="submit" id="submit-btn"
+          <button type="button" id="submit-btn" onclick="submitRegistration()"
             class="w-full emerald-grad hover:opacity-95 text-white font-extrabold text-lg py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
             <span>تأكيد التسجيل واستخراج الكود</span>
           </button>
@@ -287,21 +287,58 @@
       throw new Error("حجم الصورة كبير جداً حتى بعد الضغط؛ يرجى اختيار صورة أبسط أو أصغر.");
     }
 
-    document.getElementById("reg-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    window.submitRegistration = async () => {
       const btn = document.getElementById("submit-btn");
+      const fullNameEl = document.getElementById("fullName");
+      const nationalIdEl = document.getElementById("nationalId");
+      const phoneEl = document.getElementById("phone");
+      const sheikhNameEl = document.getElementById("sheikhName");
+      const levelEl = document.getElementById("level");
+      const birthCertEl = document.getElementById("birthCert");
+      const confirmEl = document.getElementById("residentConfirm");
+
+      const fullName = fullNameEl.value.trim();
+      const nationalId = nationalIdEl.value.trim();
+      const phone = phoneEl.value.trim();
+      const sheikhName = sheikhNameEl.value.trim();
+      const level = levelEl.value;
+
+      if (!fullName) {
+        showToast("يرجى إدخال اسم المتسابق رباعياً", true);
+        fullNameEl.focus();
+        return;
+      }
+      if (!/^\d{14}$/.test(nationalId)) {
+        showToast("يرجى إدخال الرقم القومي المكون من ١٤ رقماً بشكل صحيح", true);
+        nationalIdEl.focus();
+        return;
+      }
+      if (!/^01[0125][0-9]{8}$/.test(phone)) {
+        showToast("يرجى إدخال رقم هاتف مصري صحيح مكون من ١١ رقماً", true);
+        phoneEl.focus();
+        return;
+      }
+      if (!level) {
+        showToast("يرجى اختيار المستوى المتقدم إليه", true);
+        levelEl.focus();
+        return;
+      }
+      if (!birthCertEl.files || !birthCertEl.files[0]) {
+        showToast("إرفاق صورة شهادة الميلاد إجباري لإتمام التسجيل", true);
+        birthCertEl.focus();
+        return;
+      }
+      if (!confirmEl.checked) {
+        showToast("يرجى تأكيد الإقرار بالشروط والإقامة في قرية محلة سبك", true);
+        confirmEl.focus();
+        return;
+      }
+
       btn.disabled = true;
       btn.textContent = "جاري ضغط الصورة وحفظ البيانات...";
 
       try {
-        const fullName = document.getElementById("fullName").value.trim();
-        const nationalId = document.getElementById("nationalId").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const sheikhName = document.getElementById("sheikhName").value.trim();
-        const level = document.getElementById("level").value;
-        const birthCertInput = document.getElementById("birthCert");
-
-        const { birthCertImage, birthCertName } = await prepareBirthCertImage(birthCertInput);
+        const { birthCertImage, birthCertName } = await prepareBirthCertImage(birthCertEl);
 
         const dupQ = query(collection(db, COL_NAME), where("nationalId", "==", nationalId));
         const dupSnap = await getDocs(dupQ);
@@ -342,9 +379,10 @@
         );
         document.getElementById("wa-contestant-btn").href = `https://wa.me/${formatWhatsAppPhone(phone)}?text=${waText}`;
 
-        document.getElementById("success-card").classList.remove("hidden");
+        const successCard = document.getElementById("success-card");
+        successCard.classList.remove("hidden");
         document.getElementById("reg-form").reset();
-        document.getElementById("success-card").scrollIntoView({ behavior: "smooth" });
+        successCard.scrollIntoView({ behavior: "smooth" });
         showToast("تم التسجيل وحفظ البيانات بنجاح!");
       } catch (err) {
         console.error(err);
@@ -357,7 +395,7 @@
         btn.disabled = false;
         btn.textContent = "تأكيد التسجيل واستخراج الكود";
       }
-    });
+    };
 
     window.copyCode = async () => {
       const code = document.getElementById("res-code").textContent.trim();
