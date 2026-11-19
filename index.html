@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>المسابقة السنوية لحفظ القرآن الكريم - محلة سبك ٢٠٢٧ م / ١٤٤٨ هـ</title>
+  <title>المسابقة السنوية لحفظ القرآن الكريم - لجنة الزكاة بمحلة سبك ٢٠٢٧ م / ١٤٤٨ هـ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -40,9 +40,6 @@
       <button onclick="switchTab('inquiry')" id="tab-inquiry" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-gray-100 text-gray-700 hover:bg-emerald-50 transition">
         الاستعلام بالكود
       </button>
-      <button onclick="switchTab('admin')" id="tab-admin" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-gray-100 text-gray-700 hover:bg-emerald-50 transition">
-        لوحة اللجنة
-      </button>
     </div>
   </nav>
 
@@ -53,7 +50,7 @@
     <section id="section-register" class="space-y-6">
       <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-5 md:p-7">
         <h2 class="text-xl font-extrabold text-emerald-900 border-b border-emerald-100 pb-3 mb-5">
-          استمارة تسجيل متسابق جديد (١٤٤٨ هـ / ٢٠٢٧ م)
+          استمارة تسجيل متسابق جديد (١٤٤٨ هـ / ٢٠٢٧ م) — لجنة الزكاة بمحلة سبك
         </h2>
 
         <form id="reg-form" class="space-y-4">
@@ -69,18 +66,17 @@
               <input type="text" id="nationalId" required maxlength="14" minlength="14" pattern="\d{14}" inputmode="numeric" placeholder="أدخل ١٤ رقماً من واقع شهادة الميلاد أو البطاقة"
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
             </div>
-            
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-bold text-gray-700 mb-1">رقم الهاتف / الواتساب *</label>
               <input type="tel" id="phone" required pattern="01[0125][0-9]{8}" maxlength="11" inputmode="numeric" placeholder="01xxxxxxxxx"
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
             </div>
-            <div>
-              <label class="block text-sm font-bold text-gray-700 mb-1">اسم المحفّظ / المكتب (اختياري)</label>
-              <input type="text" id="sheikhName" placeholder="اسم الشيخ أو دار التحفيظ"
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
-            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-1">اسم المحفّظ / المكتب (اختياري)</label>
+            <input type="text" id="sheikhName" placeholder="اسم الشيخ أو دار التحفيظ"
+              class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
           </div>
 
           <div>
@@ -160,58 +156,6 @@
       </div>
     </section>
 
-    <!-- 3. لوحة إدارة اللجنة -->
-    <section id="section-admin" class="hidden space-y-6">
-      <!-- شاشة الدخول -->
-      <div id="admin-login-box" class="bg-white rounded-2xl shadow-md border border-emerald-100 p-6 max-w-md mx-auto text-center space-y-4">
-        <h2 class="text-xl font-extrabold text-emerald-900">دخول لجنة الإشراف والتنظيم</h2>
-        <p class="text-xs text-gray-500">مخصص لأعضاء لجنة الزكاة والمشرفين على المسابقة بمحلة سبك</p>
-        <input type="password" id="admin-pass" placeholder="أدخل كلمة مرور اللجنة"
-          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-center focus:outline-none focus:border-emerald-600" />
-        <button type="button" onclick="loginAdmin()" class="w-full emerald-grad text-white font-bold py-3 rounded-xl shadow">
-          دخول اللوحة
-        </button>
-      </div>
-
-      <!-- محتوى اللوحة بعد الدخول -->
-      <div id="admin-dashboard" class="hidden space-y-5">
-        <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h2 class="text-xl font-extrabold text-emerald-900">سجل المتسابقين المعتمد (<span id="total-count">0</span>)</h2>
-            <p class="text-xs text-gray-500">مزامنة فورية مع قاعدة بيانات المسابقة السحابية</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" onclick="exportCSV()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow-sm">
-              📥 تصدير شيت Excel / CSV
-            </button>
-            <button type="button" onclick="logoutAdmin()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold text-sm px-4 py-2.5 rounded-xl">
-              خروج
-            </button>
-          </div>
-        </div>
-
-        <!-- فلاتر البحث -->
-        <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input type="text" id="admin-filter-text" oninput="renderAdminList()" placeholder="بحث بالاسم أو الكود أو رقم الهاتف..."
-            class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-600" />
-          <select id="admin-filter-level" onchange="renderAdminList()" class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm bg-white">
-            <option value="">كل المستويات</option>
-            <option value="المستوى المتميز">المستوى المتميز</option>
-            <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )</option>
-            <option value="المستوى الثاني ( خمسة وعشرون جزءا )">المستوى الثاني ( خمسة وعشرون جزءا )</option>
-            <option value="المستوى الثالث ( عشرون جزءا )">المستوى الثالث ( عشرون جزءا )</option>
-            <option value="المستوى الرابع ( خمسة عشر جزءا )">المستوى الرابع ( خمسة عشر جزءا )</option>
-            <option value="المستوى الخامس ( عشرة اجزاء )">المستوى الخامس ( عشرة اجزاء )</option>
-            <option value="المستوى السادس ( ربع القرآن الكريم )">المستوى السادس ( ربع القرآن الكريم )</option>
-            <option value="المستوى السابع ( خمسة اجزاء )">المستوى السابع ( خمسة اجزاء )</option>
-            <option value="المستوى الثامن ( ثلاثة اجزاء )">المستوى الثامن ( ثلاثة اجزاء )</option>
-          </select>
-        </div>
-
-        <div id="admin-list" class="space-y-3"></div>
-      </div>
-    </section>
-
   </main>
 
   <!-- إشعار منبثق -->
@@ -220,7 +164,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDNeDaIjSi6YQNONboi7V3JCjB4TUu6TOw",
@@ -235,9 +179,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const COL_NAME = "contestants_2027";
-    let allContestants = [];
 
-    // عرض الإشعارات
     window.showToast = (msg, isError = false) => {
       const t = document.getElementById("toast");
       t.textContent = msg;
@@ -246,9 +188,8 @@
       setTimeout(() => t.classList.add("hidden"), 4500);
     };
 
-    // التنقل بين التبويبات
     window.switchTab = (tab) => {
-      ['register', 'inquiry', 'admin'].forEach(id => {
+      ['register', 'inquiry'].forEach(id => {
         document.getElementById(`section-${id}`).classList.add('hidden');
         const btn = document.getElementById(`tab-${id}`);
         btn.classList.remove('bg-emerald-700', 'text-white', 'shadow');
@@ -260,19 +201,16 @@
       active.classList.add('bg-emerald-700', 'text-white', 'shadow');
     };
 
-    // توليد كود فريد MS-2027-XXXX
     function generateCode() {
       const rand = Math.floor(1000 + Math.random() * 9000);
       return `MS-2027-${rand}`;
     }
 
-    // تنسيق رقم واتساب مصر
     function formatWhatsAppPhone(phone) {
       const clean = phone.replace(/\D/g, '');
       return clean.startsWith('0') ? '2' + clean : clean;
     }
 
-    // إرسال استمارة التسجيل
     document.getElementById("reg-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const btn = document.getElementById("submit-btn");
@@ -282,12 +220,10 @@
       try {
         const fullName = document.getElementById("fullName").value.trim();
         const nationalId = document.getElementById("nationalId").value.trim();
-        const birthDate = document.getElementById("birthDate").value;
         const phone = document.getElementById("phone").value.trim();
         const sheikhName = document.getElementById("sheikhName").value.trim();
         const level = document.getElementById("level").value;
 
-        // التحقق من عدم تكرار الرقم القومي
         const dupQ = query(collection(db, COL_NAME), where("nationalId", "==", nationalId));
         const dupSnap = await getDocs(dupQ);
         if (!dupSnap.empty) {
@@ -303,7 +239,6 @@
           code,
           fullName,
           nationalId,
-          birthDate,
           phone,
           sheikhName,
           level,
@@ -314,7 +249,6 @@
 
         await addDoc(collection(db, COL_NAME), payload);
 
-        // عرض بطاقة النجاح
         document.getElementById("res-name").textContent = fullName;
         document.getElementById("res-level").textContent = level;
         document.getElementById("res-code").textContent = code;
@@ -322,7 +256,7 @@
         const waText = encodeURIComponent(
           `السلام عليكم ورحمة الله وبركاته\n` +
           `تم تسجيل المتسابق: *${fullName}*\n` +
-          `في المسابقة السنوية الكبرى لحفظ القرآن الكريم بمحلة سبك (١٤٤٨ هـ / ٢٠٢٧ م)\n` +
+          `في المسابقة السنوية لحفظ القرآن الكريم - لجنة الزكاة بمحلة سبك (١٤٤٨ هـ / ٢٠٢٧ م)\n` +
           `المستوى: ${level}\n` +
           `كود المتسابق: *${code}*\n` +
           `(يرجى الاحتفاظ بالكود للاستعلام عن موعد الاختبار والنتيجة)`
@@ -352,7 +286,6 @@
       showToast("تم نسخ الكود: " + code);
     };
 
-    // الاستعلام بالكود فقط
     window.searchByCode = async () => {
       const raw = document.getElementById("search-code").value.trim().toUpperCase();
       const box = document.getElementById("inquiry-result");
@@ -394,145 +327,6 @@
       } catch (err) {
         box.innerHTML = `<div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 text-center font-bold">تعذر الاستعلام: ${err.message}</div>`;
       }
-    };
-
-    // لوحة اللجنة
-    window.loginAdmin = () => {
-      const pass = document.getElementById("admin-pass").value;
-      if (pass === "MSamy2027*132000") {
-        document.getElementById("admin-login-box").classList.add("hidden");
-        document.getElementById("admin-dashboard").classList.remove("hidden");
-        startAdminListener();
-      } else {
-        showToast("كلمة المرور غير صحيحة", true);
-      }
-    };
-
-    window.logoutAdmin = () => {
-      document.getElementById("admin-pass").value = "";
-      document.getElementById("admin-dashboard").classList.add("hidden");
-      document.getElementById("admin-login-box").classList.remove("hidden");
-    };
-
-    function startAdminListener() {
-      const q = query(collection(db, COL_NAME), orderBy("createdAt", "desc"));
-      onSnapshot(q, (snap) => {
-        allContestants = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
-        document.getElementById("total-count").textContent = allContestants.length;
-        renderAdminList();
-      }, (err) => {
-        showToast("خطأ في تحميل السجل: " + err.message, true);
-      });
-    }
-
-    window.renderAdminList = () => {
-      const txt = document.getElementById("admin-filter-text").value.trim().toLowerCase();
-      const lvl = document.getElementById("admin-filter-level").value;
-      const container = document.getElementById("admin-list");
-
-      const filtered = allContestants.filter(c => {
-        const matchLvl = !lvl || c.level === lvl;
-        const matchTxt = !txt ||
-          (c.fullName && c.fullName.toLowerCase().includes(txt)) ||
-          (c.code && c.code.toLowerCase().includes(txt)) ||
-          (c.phone && c.phone.includes(txt));
-        return matchLvl && matchTxt;
-      });
-
-      if (!filtered.length) {
-        container.innerHTML = `<div class="bg-white rounded-xl p-6 text-center text-gray-500 font-bold">لا توجد بيانات مطابقة حالياً.</div>`;
-        return;
-      }
-
-      container.innerHTML = filtered.map(c => {
-        const waMsg = encodeURIComponent(
-          `لجنة الزكاة بمحلة سبك - مسابقة القرآن الكريم (١٤٤٨ هـ / ٢٠٢٧ م)\n` +
-          `المتسابق: ${c.fullName}\n` +
-          `الكود: ${c.code}\n` +
-          `المستوى: ${c.level}\n` +
-          `موعد الاختبار: ${c.examSchedule || "يُحدد قريباً"}\n` +
-          `النتيجة: ${c.resultScore || "لم تُعلن بعد"}`
-        );
-        const waUrl = `https://wa.me/${formatWhatsAppPhone(c.phone || "")}?text=${waMsg}`;
-
-        return `
-          <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-4 space-y-3">
-            <div class="flex flex-wrap justify-between items-start gap-2 border-b border-gray-100 pb-2">
-              <div>
-                <h3 class="font-extrabold text-gray-900 text-base">${c.fullName}</h3>
-                <p class="text-xs font-bold text-emerald-700">${c.level}</p>
-              </div>
-              <span class="bg-emerald-100 text-emerald-900 font-extrabold text-xs px-3 py-1 rounded-full" dir="ltr">${c.code}</span>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-gray-600">
-              <div><strong>الرقم القومي:</strong> ${c.nationalId}</div>
-              <div><strong>الميلاد:</strong> ${c.birthDate}</div>
-              <div><strong>الهاتف:</strong> ${c.phone}</div>
-              <div><strong>المحفظ:</strong> ${c.sheikhName || "-"}</div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-              <input type="text" id="sched-${c.id}" value="${(c.examSchedule || '').replace(/"/g, '&quot;')}" placeholder="موعد ومكان الاختبار"
-                class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold" />
-              <input type="text" id="score-${c.id}" value="${(c.resultScore || '').replace(/"/g, '&quot;')}" placeholder="النتيجة / التقدير"
-                class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold" />
-            </div>
-
-            <div class="flex flex-wrap gap-2 pt-1">
-              <button type="button" onclick="saveUpdates('${c.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-lg">
-                💾 حفظ الموعد والنتيجة
-              </button>
-              <a href="${waUrl}" target="_blank" rel="noopener" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2 rounded-lg inline-flex items-center gap-1">
-                💬 مراسلة واتساب
-              </a>
-              <button type="button" onclick="deleteEntry('${c.id}', '${c.fullName}')" class="bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold px-3 py-2 rounded-lg mr-auto">
-                حذف
-              </button>
-            </div>
-          </div>
-        `;
-      }).join("");
-    };
-
-    window.saveUpdates = async (id) => {
-      try {
-        const examSchedule = document.getElementById(`sched-${id}`).value.trim();
-        const resultScore = document.getElementById(`score-${id}`).value.trim();
-        await updateDoc(doc(db, COL_NAME, id), { examSchedule, resultScore });
-        showToast("تم تحديث الموعد والنتيجة بنجاح");
-      } catch (err) {
-        showToast("فشل التحديث: " + err.message, true);
-      }
-    };
-
-    window.deleteEntry = async (id, name) => {
-      if (!confirm(`هل أنت متأكد من حذف بيانات المتسابق: ${name}؟`)) return;
-      try {
-        await deleteDoc(doc(db, COL_NAME, id));
-        showToast("تم حذف المتسابق");
-      } catch (err) {
-        showToast("فشل الحذف: " + err.message, true);
-      }
-    };
-
-    window.exportCSV = () => {
-      if (!allContestants.length) {
-        showToast("لا توجد بيانات لتصديرها", true);
-        return;
-      }
-      const headers = ["الكود", "الاسم الكامل", "الرقم القومي", "تاريخ الميلاد", "الهاتف", "المحفظ", "المستوى", "موعد الاختبار", "النتيجة"];
-      const rows = allContestants.map(c => [
-        c.code, c.fullName, `'${c.nationalId}`, c.birthDate, `'${c.phone}`, c.sheikhName || "", c.level, c.examSchedule || "", c.resultScore || ""
-      ]);
-      const csvContent = "\uFEFF" + [headers, ...rows].map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "mosabaqa-mahalla-subk-2027.csv";
-      a.click();
-      URL.revokeObjectURL(url);
     };
   </script>
 </body>
