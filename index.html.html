@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المسابقة السنوية الكبرى لحفظ القرآن الكريم - محلة سبك ٢٠٢٧ م / ١٤٤٨ هـ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #f4f7f5; color: #1e293b; }
+    .emerald-grad { background: linear-gradient(135deg, #064e3b 0%, #047857 100%); }
+    .gold-border { border-color: #d97706; }
+    .gold-text { color: #f59e0b; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- الترويسة النصية النظيفة -->
+  <header class="emerald-grad text-white shadow-lg border-b-4 border-amber-500">
+    <div class="max-w-4xl mx-auto px-4 py-6 text-center">
+      <p class="text-amber-300 font-bold text-sm md:text-base mb-1">جمعية تنمية المجتمع المحلي بمحلة سبك — المشهرة برقم (٤٦٨) لسنة ١٩٨٨</p>
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight leading-snug mb-2">
+        المسابقة السنوية الكبرى لحفظ القرآن الكريم
+      </h1>
+      <div class="inline-block bg-emerald-950/60 border border-amber-400/50 rounded-full px-4 py-1 text-amber-200 font-bold text-sm md:text-base mb-2">
+        تنظيم لجنة الزكاة بمحلة سبك • عام ١٤٤٨ هـ - ٢٠٢٧ م
+      </div>
+      <p class="text-xs md:text-sm text-emerald-100 mt-1">
+        ⚠️ التسجيل متاح حصرياً لأبناء والمقيمين داخل <span class="font-bold text-amber-300 underline">قرية محلة سبك</span>
+      </p>
+    </div>
+  </header>
+
+  <!-- شريط التنقل -->
+  <nav class="bg-white shadow-sm sticky top-0 z-20 border-b border-emerald-100">
+    <div class="max-w-4xl mx-auto px-2 py-2 flex justify-center gap-2">
+      <button onclick="switchTab('register')" id="tab-register" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-emerald-700 text-white shadow transition">
+        تسجيل متسابق
+      </button>
+      <button onclick="switchTab('inquiry')" id="tab-inquiry" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-gray-100 text-gray-700 hover:bg-emerald-50 transition">
+        الاستعلام بالكود
+      </button>
+      <button onclick="switchTab('admin')" id="tab-admin" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-gray-100 text-gray-700 hover:bg-emerald-50 transition">
+        لوحة اللجنة
+      </button>
+    </div>
+  </nav>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6">
+
+    <!-- 1. قسم التسجيل -->
+    <section id="section-register" class="space-y-6">
+      <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-5 md:p-7">
+        <h2 class="text-xl font-extrabold text-emerald-900 border-b border-emerald-100 pb-3 mb-5">
+          استمارة تسجيل متسابق جديد (١٤٤٨ هـ / ٢٠٢٧ م)
+        </h2>
+
+        <form id="reg-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-1">اسم المتسابق رباعياً *</label>
+            <input type="text" id="fullName" required placeholder="مثال: محمد أحمد محمود علي"
+              class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-1">الرقم القومي (١٤ رقماً) *</label>
+              <input type="text" id="nationalId" required maxlength="14" minlength="14" pattern="\d{14}" inputmode="numeric" placeholder="أدخل ١٤ رقماً من واقع شهادة الميلاد أو البطاقة"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-1">تاريخ الميلاد *</label>
+              <input type="date" id="birthDate" required
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-1">رقم الهاتف / الواتساب *</label>
+              <input type="tel" id="phone" required pattern="01[0125][0-9]{8}" maxlength="11" inputmode="numeric" placeholder="01xxxxxxxxx"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-1">اسم المحفّظ / المكتب (اختياري)</label>
+              <input type="text" id="sheikhName" placeholder="اسم الشيخ أو دار التحفيظ"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-1">المستوى المتقدم إليه *</label>
+            <select id="level" required class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 font-semibold text-gray-800">
+              <option value="">-- اختر المستوى المناسب --</option>
+              <option value="المستوى المتميز">المستوى المتميز</option>
+              <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )</option>
+              <option value="المستوى الثاني ( خمسة وعشرون جزءا )">المستوى الثاني ( خمسة وعشرون جزءا )</option>
+              <option value="المستوى الثالث ( عشرون جزءا )">المستوى الثالث ( عشرون جزءا )</option>
+              <option value="المستوى الرابع ( خمسة عشر جزءا )">المستوى الرابع ( خمسة عشر جزءا )</option>
+              <option value="المستوى الخامس ( عشرة اجزاء )">المستوى الخامس ( عشرة اجزاء )</option>
+              <option value="المستوى السادس ( ربع القرآن الكريم )">المستوى السادس ( ربع القرآن الكريم )</option>
+              <option value="المستوى السابع ( خمسة اجزاء )">المستوى السابع ( خمسة اجزاء )</option>
+              <option value="المستوى الثامن ( ثلاثة اجزاء )">المستوى الثامن ( ثلاثة اجزاء )</option>
+            </select>
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5">
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" id="residentConfirm" required class="mt-1 w-5 h-5 accent-emerald-700 rounded" />
+              <span class="text-sm font-semibold text-amber-950">
+                أقر بأن المتسابق من أبناء ومقيمي <strong>قرية محلة سبك</strong> وأن جميع البيانات المدخلة صحيحة ومطابقة للأوراق الرسمية.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" id="submit-btn"
+            class="w-full emerald-grad hover:opacity-95 text-white font-extrabold text-lg py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+            <span>تأكيد التسجيل واستخراج الكود</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- بطاقة تأكيد التسجيل -->
+      <div id="success-card" class="hidden bg-white rounded-2xl shadow-lg border-2 border-emerald-600 p-6 text-center space-y-4">
+        <div class="inline-block bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full font-bold text-sm">
+          ✅ تم حفظ بيانات المتسابق بنجاح
+        </div>
+        <h3 id="res-name" class="text-xl font-extrabold text-gray-900"></h3>
+        <p id="res-level" class="text-sm font-bold text-emerald-700"></p>
+
+        <div class="bg-emerald-50 border-2 border-dashed border-emerald-500 rounded-2xl p-4 max-w-sm mx-auto">
+          <p class="text-xs font-bold text-gray-600 mb-1">كود المتسابق الخاص بك (احتفظ به للاستعلام)</p>
+          <div id="res-code" class="text-2xl md:text-3xl font-extrabold text-emerald-900 tracking-wider select-all"></div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+          <button type="button" onclick="copyCode()" class="px-5 py-3 rounded-xl bg-gray-800 hover:bg-gray-900 text-white font-bold text-sm transition">
+            📋 نسخ الكود
+          </button>
+          <a id="wa-contestant-btn" href="#" target="_blank" rel="noopener"
+            class="px-5 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm transition inline-flex items-center justify-center gap-2">
+            💬 إرسال الكود والبيانات عبر واتساب
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. قسم الاستعلام بالكود فقط -->
+    <section id="section-inquiry" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-5 md:p-7">
+        <h2 class="text-xl font-extrabold text-emerald-900 border-b border-emerald-100 pb-3 mb-4">
+          الاستعلام عن موعد الاختبار والنتيجة
+        </h2>
+        <p class="text-sm text-gray-600 mb-4">أدخل كود المتسابق المكون من <span class="font-bold text-emerald-800" dir="ltr">MS-2027-XXXX</span> للاطلاع على تفاصيل الاختبار والنتيجة.</p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="text" id="search-code" placeholder="مثال: MS-2027-4812" dir="ltr"
+            class="flex-1 rounded-xl border border-gray-300 px-4 py-3 text-center font-bold text-lg uppercase focus:outline-none focus:border-emerald-600" />
+          <button type="button" onclick="searchByCode()" class="emerald-grad text-white font-bold px-6 py-3 rounded-xl shadow hover:opacity-95 transition">
+            استعلام الآن
+          </button>
+        </div>
+
+        <div id="inquiry-result" class="mt-6 hidden"></div>
+      </div>
+    </section>
+
+    <!-- 3. لوحة إدارة اللجنة -->
+    <section id="section-admin" class="hidden space-y-6">
+      <!-- شاشة الدخول -->
+      <div id="admin-login-box" class="bg-white rounded-2xl shadow-md border border-emerald-100 p-6 max-w-md mx-auto text-center space-y-4">
+        <h2 class="text-xl font-extrabold text-emerald-900">دخول لجنة الإشراف والتنظيم</h2>
+        <p class="text-xs text-gray-500">مخصص لأعضاء لجنة الزكاة والمشرفين على المسابقة بمحلة سبك</p>
+        <input type="password" id="admin-pass" placeholder="أدخل كلمة مرور اللجنة"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-center focus:outline-none focus:border-emerald-600" />
+        <button type="button" onclick="loginAdmin()" class="w-full emerald-grad text-white font-bold py-3 rounded-xl shadow">
+          دخول اللوحة
+        </button>
+      </div>
+
+      <!-- محتوى اللوحة بعد الدخول -->
+      <div id="admin-dashboard" class="hidden space-y-5">
+        <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-extrabold text-emerald-900">سجل المتسابقين المعتمد (<span id="total-count">0</span>)</h2>
+            <p class="text-xs text-gray-500">مزامنة فورية مع قاعدة بيانات المسابقة السحابية</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="exportCSV()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow-sm">
+              📥 تصدير شيت Excel / CSV
+            </button>
+            <button type="button" onclick="logoutAdmin()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold text-sm px-4 py-2.5 rounded-xl">
+              خروج
+            </button>
+          </div>
+        </div>
+
+        <!-- فلاتر البحث -->
+        <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input type="text" id="admin-filter-text" oninput="renderAdminList()" placeholder="بحث بالاسم أو الكود أو رقم الهاتف..."
+            class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-600" />
+          <select id="admin-filter-level" onchange="renderAdminList()" class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm bg-white">
+            <option value="">كل المستويات</option>
+            <option value="المستوى المتميز">المستوى المتميز</option>
+            <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )</option>
+            <option value="المستوى الثاني ( خمسة وعشرون جزءا )">المستوى الثاني ( خمسة وعشرون جزءا )</option>
+            <option value="المستوى الثالث ( عشرون جزءا )">المستوى الثالث ( عشرون جزءا )</option>
+            <option value="المستوى الرابع ( خمسة عشر جزءا )">المستوى الرابع ( خمسة عشر جزءا )</option>
+            <option value="المستوى الخامس ( عشرة اجزاء )">المستوى الخامس ( عشرة اجزاء )</option>
+            <option value="المستوى السادس ( ربع القرآن الكريم )">المستوى السادس ( ربع القرآن الكريم )</option>
+            <option value="المستوى السابع ( خمسة اجزاء )">المستوى السابع ( خمسة اجزاء )</option>
+            <option value="المستوى الثامن ( ثلاثة اجزاء )">المستوى الثامن ( ثلاثة اجزاء )</option>
+          </select>
+        </div>
+
+        <div id="admin-list" class="space-y-3"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- إشعار منبثق -->
+  <div id="toast" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto hidden p-4 rounded-xl shadow-xl text-white font-bold text-sm text-center z-50 transition"></div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDNeDaIjSi6YQNONboi7V3JCjB4TUu6TOw",
+      authDomain: "mosabaqa2027.firebaseapp.com",
+      projectId: "mosabaqa2027",
+      storageBucket: "mosabaqa2027.firebasestorage.app",
+      messagingSenderId: "884137513531",
+      appId: "1:884137513531:web:97de536633d2d0d573021e",
+      measurementId: "G-VYHNCCTEL8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const COL_NAME = "contestants_2027";
+    let allContestants = [];
+
+    // عرض الإشعارات
+    window.showToast = (msg, isError = false) => {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = `fixed bottom-4 left-4 right-4 max-w-md mx-auto p-4 rounded-xl shadow-xl text-white font-bold text-sm text-center z-50 ${isError ? 'bg-red-600' : 'bg-emerald-800'}`;
+      t.classList.remove("hidden");
+      setTimeout(() => t.classList.add("hidden"), 4500);
+    };
+
+    // التنقل بين التبويبات
+    window.switchTab = (tab) => {
+      ['register', 'inquiry', 'admin'].forEach(id => {
+        document.getElementById(`section-${id}`).classList.add('hidden');
+        const btn = document.getElementById(`tab-${id}`);
+        btn.classList.remove('bg-emerald-700', 'text-white', 'shadow');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      document.getElementById(`section-${tab}`).classList.remove('hidden');
+      const active = document.getElementById(`tab-${tab}`);
+      active.classList.remove('bg-gray-100', 'text-gray-700');
+      active.classList.add('bg-emerald-700', 'text-white', 'shadow');
+    };
+
+    // توليد كود فريد MS-2027-XXXX
+    function generateCode() {
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      return `MS-2027-${rand}`;
+    }
+
+    // تنسيق رقم واتساب مصر
+    function formatWhatsAppPhone(phone) {
+      const clean = phone.replace(/\D/g, '');
+      return clean.startsWith('0') ? '2' + clean : clean;
+    }
+
+    // إرسال استمارة التسجيل
+    document.getElementById("reg-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("submit-btn");
+      btn.disabled = true;
+      btn.textContent = "جاري حفظ البيانات...";
+
+      try {
+        const fullName = document.getElementById("fullName").value.trim();
+        const nationalId = document.getElementById("nationalId").value.trim();
+        const birthDate = document.getElementById("birthDate").value;
+        const phone = document.getElementById("phone").value.trim();
+        const sheikhName = document.getElementById("sheikhName").value.trim();
+        const level = document.getElementById("level").value;
+
+        // التحقق من عدم تكرار الرقم القومي
+        const dupQ = query(collection(db, COL_NAME), where("nationalId", "==", nationalId));
+        const dupSnap = await getDocs(dupQ);
+        if (!dupSnap.empty) {
+          const existing = dupSnap.docs[0].data();
+          showToast(`هذا الرقم القومي مسجل بالفعل بالكود: ${existing.code}`, true);
+          btn.disabled = false;
+          btn.textContent = "تأكيد التسجيل واستخراج الكود";
+          return;
+        }
+
+        const code = generateCode();
+        const payload = {
+          code,
+          fullName,
+          nationalId,
+          birthDate,
+          phone,
+          sheikhName,
+          level,
+          examSchedule: "لم يُحدد بعد — يُرجى المتابعة بالكود",
+          resultScore: "لم تُعلن النتيجة بعد",
+          createdAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, COL_NAME), payload);
+
+        // عرض بطاقة النجاح
+        document.getElementById("res-name").textContent = fullName;
+        document.getElementById("res-level").textContent = level;
+        document.getElementById("res-code").textContent = code;
+
+        const waText = encodeURIComponent(
+          `السلام عليكم ورحمة الله وبركاته\n` +
+          `تم تسجيل المتسابق: *${fullName}*\n` +
+          `في المسابقة السنوية الكبرى لحفظ القرآن الكريم بمحلة سبك (١٤٤٨ هـ / ٢٠٢٧ م)\n` +
+          `المستوى: ${level}\n` +
+          `كود المتسابق: *${code}*\n` +
+          `(يرجى الاحتفاظ بالكود للاستعلام عن موعد الاختبار والنتيجة)`
+        );
+        document.getElementById("wa-contestant-btn").href = `https://wa.me/${formatWhatsAppPhone(phone)}?text=${waText}`;
+
+        document.getElementById("success-card").classList.remove("hidden");
+        document.getElementById("reg-form").reset();
+        document.getElementById("success-card").scrollIntoView({ behavior: "smooth" });
+        showToast("تم التسجيل وحفظ البيانات في السحابة بنجاح!");
+      } catch (err) {
+        console.error(err);
+        if (err.code === "permission-denied") {
+          showToast("تم رفض الحفظ من صلاحيات قاعدة البيانات (permission-denied). راجع قواعد Firestore في مشروع mosabaqa2027.", true);
+        } else {
+          showToast("حدث خطأ أثناء الحفظ: " + (err.message || "يرجى المحاولة مرة أخرى"), true);
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "تأكيد التسجيل واستخراج الكود";
+      }
+    });
+
+    window.copyCode = () => {
+      const code = document.getElementById("res-code").textContent;
+      navigator.clipboard.writeText(code);
+      showToast("تم نسخ الكود: " + code);
+    };
+
+    // الاستعلام بالكود فقط
+    window.searchByCode = async () => {
+      const raw = document.getElementById("search-code").value.trim().toUpperCase();
+      const box = document.getElementById("inquiry-result");
+      if (!raw) {
+        showToast("يرجى إدخال كود المتسابق أولاً", true);
+        return;
+      }
+
+      box.classList.remove("hidden");
+      box.innerHTML = `<p class="text-center text-gray-500 font-bold py-4">جاري البحث عن الكود...</p>`;
+
+      try {
+        const q = query(collection(db, COL_NAME), where("code", "==", raw));
+        const snap = await getDocs(q);
+        if (snap.empty) {
+          box.innerHTML = `<div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 text-center font-bold">لم يتم العثور على متسابق بهذا الكود (${raw}). تأكد من كتابته بشكل صحيح.</div>`;
+          return;
+        }
+        const d = snap.docs[0].data();
+        box.innerHTML = `
+          <div class="bg-emerald-50 border-2 border-emerald-600 rounded-2xl p-5 space-y-3">
+            <div class="flex justify-between items-center border-b border-emerald-200 pb-2">
+              <span class="font-extrabold text-emerald-950 text-lg">${d.fullName}</span>
+              <span class="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full" dir="ltr">${d.code}</span>
+            </div>
+            <p class="text-sm font-bold text-emerald-800">المستوى: ${d.level}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div class="bg-white rounded-xl p-3.5 border border-emerald-200">
+                <p class="text-xs text-gray-500 font-bold mb-1">📅 موعد ومكان الاختبار</p>
+                <p class="text-sm font-extrabold text-gray-900">${d.examSchedule || "لم يُحدد بعد"}</p>
+              </div>
+              <div class="bg-white rounded-xl p-3.5 border border-emerald-200">
+                <p class="text-xs text-gray-500 font-bold mb-1">🏆 النتيجة والتقدير</p>
+                <p class="text-sm font-extrabold text-amber-700">${d.resultScore || "لم تُعلن بعد"}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        box.innerHTML = `<div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 text-center font-bold">تعذر الاستعلام: ${err.message}</div>`;
+      }
+    };
+
+    // لوحة اللجنة
+    window.loginAdmin = () => {
+      const pass = document.getElementById("admin-pass").value;
+      if (pass === "MSamy2027*132000") {
+        document.getElementById("admin-login-box").classList.add("hidden");
+        document.getElementById("admin-dashboard").classList.remove("hidden");
+        startAdminListener();
+      } else {
+        showToast("كلمة المرور غير صحيحة", true);
+      }
+    };
+
+    window.logoutAdmin = () => {
+      document.getElementById("admin-pass").value = "";
+      document.getElementById("admin-dashboard").classList.add("hidden");
+      document.getElementById("admin-login-box").classList.remove("hidden");
+    };
+
+    function startAdminListener() {
+      const q = query(collection(db, COL_NAME), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snap) => {
+        allContestants = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+        document.getElementById("total-count").textContent = allContestants.length;
+        renderAdminList();
+      }, (err) => {
+        showToast("خطأ في تحميل السجل: " + err.message, true);
+      });
+    }
+
+    window.renderAdminList = () => {
+      const txt = document.getElementById("admin-filter-text").value.trim().toLowerCase();
+      const lvl = document.getElementById("admin-filter-level").value;
+      const container = document.getElementById("admin-list");
+
+      const filtered = allContestants.filter(c => {
+        const matchLvl = !lvl || c.level === lvl;
+        const matchTxt = !txt ||
+          (c.fullName && c.fullName.toLowerCase().includes(txt)) ||
+          (c.code && c.code.toLowerCase().includes(txt)) ||
+          (c.phone && c.phone.includes(txt));
+        return matchLvl && matchTxt;
+      });
+
+      if (!filtered.length) {
+        container.innerHTML = `<div class="bg-white rounded-xl p-6 text-center text-gray-500 font-bold">لا توجد بيانات مطابقة حالياً.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(c => {
+        const waMsg = encodeURIComponent(
+          `لجنة الزكاة بمحلة سبك - مسابقة القرآن الكريم (١٤٤٨ هـ / ٢٠٢٧ م)\n` +
+          `المتسابق: ${c.fullName}\n` +
+          `الكود: ${c.code}\n` +
+          `المستوى: ${c.level}\n` +
+          `موعد الاختبار: ${c.examSchedule || "يُحدد قريباً"}\n` +
+          `النتيجة: ${c.resultScore || "لم تُعلن بعد"}`
+        );
+        const waUrl = `https://wa.me/${formatWhatsAppPhone(c.phone || "")}?text=${waMsg}`;
+
+        return `
+          <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-4 space-y-3">
+            <div class="flex flex-wrap justify-between items-start gap-2 border-b border-gray-100 pb-2">
+              <div>
+                <h3 class="font-extrabold text-gray-900 text-base">${c.fullName}</h3>
+                <p class="text-xs font-bold text-emerald-700">${c.level}</p>
+              </div>
+              <span class="bg-emerald-100 text-emerald-900 font-extrabold text-xs px-3 py-1 rounded-full" dir="ltr">${c.code}</span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-gray-600">
+              <div><strong>الرقم القومي:</strong> ${c.nationalId}</div>
+              <div><strong>الميلاد:</strong> ${c.birthDate}</div>
+              <div><strong>الهاتف:</strong> ${c.phone}</div>
+              <div><strong>المحفظ:</strong> ${c.sheikhName || "-"}</div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <input type="text" id="sched-${c.id}" value="${(c.examSchedule || '').replace(/"/g, '&quot;')}" placeholder="موعد ومكان الاختبار"
+                class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold" />
+              <input type="text" id="score-${c.id}" value="${(c.resultScore || '').replace(/"/g, '&quot;')}" placeholder="النتيجة / التقدير"
+                class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold" />
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-1">
+              <button type="button" onclick="saveUpdates('${c.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-lg">
+                💾 حفظ الموعد والنتيجة
+              </button>
+              <a href="${waUrl}" target="_blank" rel="noopener" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2 rounded-lg inline-flex items-center gap-1">
+                💬 مراسلة واتساب
+              </a>
+              <button type="button" onclick="deleteEntry('${c.id}', '${c.fullName}')" class="bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold px-3 py-2 rounded-lg mr-auto">
+                حذف
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    };
+
+    window.saveUpdates = async (id) => {
+      try {
+        const examSchedule = document.getElementById(`sched-${id}`).value.trim();
+        const resultScore = document.getElementById(`score-${id}`).value.trim();
+        await updateDoc(doc(db, COL_NAME, id), { examSchedule, resultScore });
+        showToast("تم تحديث الموعد والنتيجة بنجاح");
+      } catch (err) {
+        showToast("فشل التحديث: " + err.message, true);
+      }
+    };
+
+    window.deleteEntry = async (id, name) => {
+      if (!confirm(`هل أنت متأكد من حذف بيانات المتسابق: ${name}؟`)) return;
+      try {
+        await deleteDoc(doc(db, COL_NAME, id));
+        showToast("تم حذف المتسابق");
+      } catch (err) {
+        showToast("فشل الحذف: " + err.message, true);
+      }
+    };
+
+    window.exportCSV = () => {
+      if (!allContestants.length) {
+        showToast("لا توجد بيانات لتصديرها", true);
+        return;
+      }
+      const headers = ["الكود", "الاسم الكامل", "الرقم القومي", "تاريخ الميلاد", "الهاتف", "المحفظ", "المستوى", "موعد الاختبار", "النتيجة"];
+      const rows = allContestants.map(c => [
+        c.code, c.fullName, `'${c.nationalId}`, c.birthDate, `'${c.phone}`, c.sheikhName || "", c.level, c.examSchedule || "", c.resultScore || ""
+      ]);
+      const csvContent = "\uFEFF" + [headers, ...rows].map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "mosabaqa-mahalla-subk-2027.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  </script>
+</body>
+</html>
