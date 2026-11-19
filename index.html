@@ -52,7 +52,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-100 pb-3">
           <div>
             <h2 class="text-lg md:text-xl font-extrabold text-emerald-900">شروط وضوابط المسابقة</h2>
-            <p class="text-xs text-gray-500">يرجى قراءة الشروط جيداً قبل تعبئة استمارة التسجيل</p>
+            <p class="text-xs text-gray-500">يرجى قراءة الشروط وشروط السن لكل مستوى قبل تعبئة الاستمارة</p>
           </div>
           <span class="bg-amber-100 text-amber-900 text-xs font-extrabold px-3 py-1 rounded-full">
             ١٤٤٨ هـ / ٢٠٢٧ م
@@ -61,9 +61,9 @@
 
         <ul class="space-y-2 text-xs md:text-sm text-gray-700 leading-relaxed list-disc pr-5">
           <li><strong>الإقامة:</strong> التسجيل متاح لأبناء والمقيمين داخل <strong>قرية محلة سبك</strong> وفق ضوابط اللجنة.</li>
+          <li><strong>السن حسب المستوى:</strong> الالتزام بشرط السن الموضح بجانب كل مستوى (مواليد ٢٠٠١ م للمتميز[cite: 1]، مواليد ٢٠٠٧ م للأول والثاني والثالث، مواليد ٢٠١٢ م للرابع، مواليد ٢٠١٤ م للخامس، مواليد ٢٠١٥ م للسادس، مواليد ٢٠١٦ م للسابع، مواليد ٢٠١٧ م للثامن[cite: 2]).</li>
           <li><strong>صحة البيانات وشهادة الميلاد:</strong> إدخال الاسم رباعياً والرقم القومي (١٤ رقماً) ورقم الهاتف بدقة، مع <strong>إرفاق صورة واضحة لشهادة الميلاد كشرط إجباري</strong> لإتمام التسجيل.</li>
-          <li><strong>المستوى:</strong> الالتزام بالمستوى المختار في الاستمارة، ولا يُعدّل إلا بقرار من اللجنة المنظمة.</li>
-          <li><strong>المواعيد والنتائج:</strong> الالتزام بموعد ومكان الاختبار المحددين، والنتائج المعتمدة من لجنة التحكيم نهائية وتُعلن بالكود الخاص بالمتسابق.</li>
+          <li><strong>استمارة الاختبار والنتائج:</strong> تظهر استمارة الاختبار المطبوعة في صفحة الاستعلام بالكود بعد تحديد اللجنة لموعد الاختبار، والنتائج المعتمدة نهائية.</li>
         </ul>
       </div>
 
@@ -94,25 +94,20 @@
           </div>
 
           <div>
-            <label class="block text-sm font-bold text-gray-700 mb-1">اسم المحفّظ / المكتب (اختياري)</label>
-            <input type="text" id="sheikhName" placeholder="اسم الشيخ أو دار التحفيظ"
-              class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
-          </div>
-
-          <div>
-            <label class="block text-sm font-bold text-gray-700 mb-1">المستوى المتقدم إليه *</label>
-            <select id="level" required class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 font-semibold text-gray-800">
+            <label for="level" class="block text-sm font-bold text-gray-700 mb-1">المستوى المتقدم إليه وشرط السن *</label>
+            <select id="level" onchange="updateSelectedAgeNote()" required class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 font-semibold text-gray-800">
               <option value="">-- اختر المستوى المناسب --</option>
-              <option value="المستوى المتميز">المستوى المتميز</option>
-              <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة )</option>
-              <option value="المستوى الثاني ( خمسة وعشرون جزءا )">المستوى الثاني ( خمسة وعشرون جزءا )</option>
-              <option value="المستوى الثالث ( عشرون جزءا )">المستوى الثالث ( عشرون جزءا )</option>
-              <option value="المستوى الرابع ( خمسة عشر جزءا )">المستوى الرابع ( خمسة عشر جزءا )</option>
-              <option value="المستوى الخامس ( عشرة اجزاء )">المستوى الخامس ( عشرة اجزاء )</option>
-              <option value="المستوى السادس ( ربع القرآن الكريم )">المستوى السادس ( ربع القرآن الكريم )</option>
-              <option value="المستوى السابع ( خمسة اجزاء )">المستوى السابع ( خمسة اجزاء )</option>
-              <option value="المستوى الثامن ( ثلاثة اجزاء )">المستوى الثامن ( ثلاثة اجزاء )</option>
+              <option value="المستوى المتميز — مواليد ٢٠٠١ م">المستوى المتميز — مواليد ٢٠٠١ م</option>
+              <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م</option>
+              <option value="المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م</option>
+              <option value="المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م</option>
+              <option value="المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م">المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م</option>
+              <option value="المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م">المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م</option>
+              <option value="المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م">المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م</option>
+              <option value="المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م">المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م</option>
+              <option value="المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م">المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م</option>
             </select>
+            <p id="selected-age-note" class="text-xs font-bold text-emerald-800 mt-1.5 hidden"></p>
           </div>
 
           <!-- إرفاق صورة شهادة الميلاد (إجباري - صورة فقط) -->
@@ -123,7 +118,7 @@
             <input type="file" id="birthCert" accept="image/*" required
               class="block w-full text-xs sm:text-sm text-gray-700 file:ml-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800 hover:file:bg-emerald-100 border border-gray-300 rounded-xl p-1.5 bg-white focus:outline-none focus:border-emerald-600" />
             <p class="text-xs text-gray-500 mt-1">
-              مطلوب إرفاق صورة واضحة لشهادة الميلاد، وسيتم ضغطها تلقائياً لتكون بحجم صغير.
+              مطلوب إرفاق صورة واضحة لشهادة الميلاد لتطابق السن والبيانات، وسيتم ضغطها تلقائياً لتكون بحجم صغير.
             </p>
           </div>
 
@@ -131,7 +126,7 @@
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" id="residentConfirm" required class="mt-1 w-5 h-5 accent-emerald-700 rounded" />
               <span class="text-sm font-semibold text-amber-950">
-                أقر بأن المتسابق من أبناء ومقيمي <strong>قرية محلة سبك</strong>، وأنني اطلعت على شروط المسابقة، وأن جميع البيانات وصورة شهادة الميلاد المرفقة صحيحة ومطابقة للأوراق الرسمية.
+                أقر بأن المتسابق من أبناء ومقيمي <strong>قرية محلة سبك</strong> ومطابق لشرط السن الخاص بالمستوى المختار، وأن جميع البيانات وصورة شهادة الميلاد المرفقة صحيحة ومطابقة للأوراق الرسمية.
               </span>
             </label>
           </div>
@@ -156,6 +151,10 @@
           <div id="res-code" class="text-2xl md:text-3xl font-extrabold text-emerald-900 tracking-wider select-all"></div>
         </div>
 
+        <p class="text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl p-3 max-w-md mx-auto">
+          📌 ستظهر استمارة الاختبار للطباعة في قسم <strong>«الاستعلام بالكود»</strong> فور قيام اللجنة بتحديد موعد اختبارك.
+        </p>
+
         <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
           <button type="button" onclick="copyCode()" class="px-5 py-3 rounded-xl bg-gray-800 hover:bg-gray-900 text-white font-bold text-sm transition">
             📋 نسخ الكود
@@ -172,9 +171,9 @@
     <section id="section-inquiry" class="hidden space-y-6">
       <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-5 md:p-7">
         <h2 class="text-xl font-extrabold text-emerald-900 border-b border-emerald-100 pb-3 mb-4">
-          الاستعلام عن موعد الاختبار والنتيجة
+          الاستعلام عن موعد الاختبار والنتيجة وطباعة الاستمارة
         </h2>
-        <p class="text-sm text-gray-600 mb-4">أدخل كود المتسابق المكون من <span class="font-bold text-emerald-800" dir="ltr">MS-2027-XXXX</span> للاطلاع على تفاصيل الاختبار والنتيجة.</p>
+        <p class="text-sm text-gray-600 mb-4">أدخل كود المتسابق المكون من <span class="font-bold text-emerald-800" dir="ltr">MS-2027-XXXX</span> للاطلاع على موعد الاختبار والنتيجة وطباعة استمارة الاختبار بعد تحديد الموعد.</p>
 
         <div class="flex flex-col sm:flex-row gap-3">
           <input type="text" id="search-code" placeholder="مثال: MS-2027-4812" dir="ltr"
@@ -211,6 +210,21 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const COL_NAME = "contestants_2027";
+    const UNSET_SCHEDULE_TEXT = "لم يُحدد بعد — يُرجى المتابعة بالكود";
+
+    window.updateSelectedAgeNote = () => {
+      const val = document.getElementById("level").value;
+      const note = document.getElementById("selected-age-note");
+      if (!val) {
+        note.classList.add("hidden");
+        note.textContent = "";
+        return;
+      }
+      const parts = val.split("—");
+      const agePart = parts.length > 1 ? parts[parts.length - 1].trim() : "";
+      note.textContent = agePart ? `شرط السن المقرر لهذا المستوى: ${agePart}` : "";
+      note.classList.toggle("hidden", !agePart);
+    };
 
     window.showToast = (msg, isError = false) => {
       const t = document.getElementById("toast");
@@ -241,6 +255,12 @@
     function formatWhatsAppPhone(phone) {
       const clean = phone.replace(/\D/g, '');
       return clean.startsWith('0') ? '2' + clean : clean;
+    }
+
+    function hasScheduledExam(scheduleText) {
+      const s = (scheduleText || "").trim();
+      if (!s) return false;
+      return !s.includes("لم يُحدد") && !s.includes("لم يحدد") && !s.includes("يُحدد قريباً");
     }
 
     async function prepareBirthCertImage(fileInput) {
@@ -292,7 +312,6 @@
       const fullNameEl = document.getElementById("fullName");
       const nationalIdEl = document.getElementById("nationalId");
       const phoneEl = document.getElementById("phone");
-      const sheikhNameEl = document.getElementById("sheikhName");
       const levelEl = document.getElementById("level");
       const birthCertEl = document.getElementById("birthCert");
       const confirmEl = document.getElementById("residentConfirm");
@@ -300,7 +319,6 @@
       const fullName = fullNameEl.value.trim();
       const nationalId = nationalIdEl.value.trim();
       const phone = phoneEl.value.trim();
-      const sheikhName = sheikhNameEl.value.trim();
       const level = levelEl.value;
 
       if (!fullName) {
@@ -354,11 +372,10 @@
           fullName,
           nationalId,
           phone,
-          sheikhName,
           level,
           birthCertImage,
           birthCertName,
-          examSchedule: "لم يُحدد بعد — يُرجى المتابعة بالكود",
+          examSchedule: UNSET_SCHEDULE_TEXT,
           resultScore: "لم تُعلن النتيجة بعد",
           createdAt: serverTimestamp()
         };
@@ -375,15 +392,16 @@
           `في المسابقة السنوية لحفظ القرآن الكريم - لجنة الزكاة بمحلة سبك (١٤٤٨ هـ / ٢٠٢٧ م)\n` +
           `المستوى: ${level}\n` +
           `كود المتسابق: *${code}*\n` +
-          `(يرجى الاحتفاظ بالكود للاستعلام عن موعد الاختبار والنتيجة)`
+          `(يرجى الاحتفاظ بالكود للاستعلام عن موعد الاختبار وطباعة الاستمارة بعد تحديد الموعد)`
         );
         document.getElementById("wa-contestant-btn").href = `https://wa.me/${formatWhatsAppPhone(phone)}?text=${waText}`;
 
         const successCard = document.getElementById("success-card");
         successCard.classList.remove("hidden");
         document.getElementById("reg-form").reset();
+        updateSelectedAgeNote();
         successCard.scrollIntoView({ behavior: "smooth" });
-        showToast("تم التسجيل وحفظ البيانات بنجاح!");
+        showToast("تم التسجيل وحفظ البيانات في السحابة بنجاح!");
       } catch (err) {
         console.error(err);
         if (err.code === "permission-denied") {
@@ -426,8 +444,11 @@
           return;
         }
         const d = snap.docs[0].data();
+        const examReady = hasScheduledExam(d.examSchedule);
+        const sheetUrl = `exam-sheet.html?code=${encodeURIComponent(d.code)}`;
+
         box.innerHTML = `
-          <div class="bg-emerald-50 border-2 border-emerald-600 rounded-2xl p-5 space-y-3">
+          <div class="bg-emerald-50 border-2 border-emerald-600 rounded-2xl p-5 space-y-4">
             <div class="flex justify-between items-center border-b border-emerald-200 pb-2">
               <span class="font-extrabold text-emerald-950 text-lg">${d.fullName}</span>
               <span class="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full" dir="ltr">${d.code}</span>
@@ -436,13 +457,27 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
               <div class="bg-white rounded-xl p-3.5 border border-emerald-200">
                 <p class="text-xs text-gray-500 font-bold mb-1">📅 موعد ومكان الاختبار</p>
-                <p class="text-sm font-extrabold text-gray-900">${d.examSchedule || "لم يُحدد بعد"}</p>
+                <p class="text-sm font-extrabold text-gray-900">${d.examSchedule || UNSET_SCHEDULE_TEXT}</p>
               </div>
               <div class="bg-white rounded-xl p-3.5 border border-emerald-200">
                 <p class="text-xs text-gray-500 font-bold mb-1">🏆 النتيجة والتقدير</p>
                 <p class="text-sm font-extrabold text-amber-700">${d.resultScore || "لم تُعلن بعد"}</p>
               </div>
             </div>
+            ${examReady
+              ? `<div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-emerald-300 rounded-xl p-3.5">
+                   <div class="text-xs text-emerald-900 font-bold">
+                     ✅ تم تحديد موعد الاختبار؛ يمكنك الآن طباعة استمارة الاختبار وإحضارها معك.
+                   </div>
+                   <a href="${sheetUrl}" target="_blank" rel="noopener"
+                     class="emerald-grad text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl shadow hover:opacity-95 transition text-center shrink-0">
+                     🖨️ طباعة استمارة الاختبار
+                   </a>
+                 </div>`
+              : `<div class="text-xs text-amber-900 bg-amber-100/80 border border-amber-300 rounded-xl p-3 font-semibold">
+                   ⏳ استمارة الاختبار غير متاحة للطباعة بعد؛ ستظهر هنا بمجرد تحديد اللجنة لموعد الاختبار.
+                 </div>`
+            }
           </div>
         `;
       } catch (err) {
