@@ -1,1 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>استمارة اختبار متسابق - لجنة الزكاة بمحلة سبك ٢٠٢٧ م / ١٤٤٨ هـ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+    @media print {
+      body { background-color: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+      .no-print { display: none !important; }
+      .sheet-container { box-shadow: none !important; border: 1.5px solid #064e3b !important; max-width: 100% !important; margin: 0 !important; padding: 14px 18px !important; }
+      table, th, td { border-color: #334155 !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen py-5 px-3">
 
+  <!-- شريط أدوات الطباعة (يختفي عند الطباعة) -->
+  <div class="no-print max-w-4xl mx-auto mb-4 bg-white rounded-2xl shadow-sm border border-emerald-200 p-3.5 flex flex-wrap items-center justify-between gap-3">
+    <div class="text-xs sm:text-sm font-bold text-emerald-900">
+      استمارة اختبار رسمية جاهزة للطباعة — لجنة الزكاة بمحلة سبك (١٤٤٨ هـ / ٢٠٢٧ م)
+    </div>
+    <div class="flex gap-2">
+      <button type="button" onclick="window.print()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-extrabold px-4 py-2 rounded-xl shadow">
+        🖨️ طباعة الاستمارة
+      </button>
+      <a href="index.html" class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl">
+        العودة للبوابة
+      </a>
+    </div>
+  </div>
+
+  <!-- حالة التحميل أو الخطأ -->
+  <div id="status-box" class="max-w-4xl mx-auto bg-white rounded-2xl shadow border border-emerald-100 p-8 text-center font-bold text-gray-600">
+    جاري تحميل بيانات استمارة الاختبار...
+  </div>
+
+  <!-- الاستمارة الرسمية -->
+  <article id="sheet-box" class="sheet-container hidden max-w-4xl mx-auto bg-white rounded-2xl shadow-lg border-2 border-emerald-900 p-5 md:p-7 space-y-4">
+
+    <!-- الترويسة -->
+    <header class="border-b-2 border-emerald-900 pb-3 text-center space-y-1">
+      <p class="text-xs md:text-sm font-extrabold text-emerald-900">
+        الجمعية الخيرية المركزية لمحبي الزكاة — لجنة الزكاة بمحلة سبك (المشهرة برقم ٤٦٨ لسنة ١٩٨٨)
+      </p>
+      <h1 class="text-xl md:text-2xl font-extrabold text-slate-900">
+        استمارة تقييم ومتابعة اختبار المتسابق
+      </h1>
+      <p class="text-xs md:text-sm font-bold text-amber-800">
+        المسابقة السنوية لحفظ القرآن الكريم — عام ١٤٤٨ هـ / ٢٠٢٧ م
+      </p>
+    </header>
+
+    <!-- بيانات المتسابق -->
+    <section class="bg-emerald-50/50 border border-emerald-800/40 rounded-xl p-3.5">
+      <h2 class="text-sm font-extrabold text-emerald-950 mb-2.5 border-b border-emerald-200 pb-1">
+        أولاً: بيانات المتسابق وموعد الاختبار
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 text-xs md:text-sm">
+        <div class="bg-white border border-slate-200 rounded-lg p-2.5">
+          <span class="text-slate-500 font-semibold block text-xs">كود المتسابق</span>
+          <span id="sh-code" class="font-extrabold text-emerald-950" dir="ltr"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-2.5 sm:col-span-2">
+          <span class="text-slate-500 font-semibold block text-xs">الاسم رباعياً</span>
+          <span id="sh-name" class="font-extrabold text-slate-900"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-2.5">
+          <span class="text-slate-500 font-semibold block text-xs">الرقم القومي</span>
+          <span id="sh-nid" class="font-extrabold text-slate-900" dir="ltr"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-2.5">
+          <span class="text-slate-500 font-semibold block text-xs">رقم الهاتف / الواتساب</span>
+          <span id="sh-phone" class="font-extrabold text-slate-900" dir="ltr"></span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-2.5">
+          <span class="text-slate-500 font-semibold block text-xs">المستوى</span>
+          <span id="sh-level" class="font-extrabold text-emerald-900"></span>
+        </div>
+        <div class="bg-white border border-amber-400 rounded-lg p-2.5 sm:col-span-2 md:col-span-3">
+          <span class="text-amber-900 font-bold block text-xs">موعد ومكان الاختبار المحدد</span>
+          <span id="sh-schedule" class="font-extrabold text-slate-950"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- جدول درجات الاختبار: ١٠ أسئلة كل سؤال من ١٠٠ -->
+    <section class="space-y-2">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h2 class="text-sm font-extrabold text-emerald-950">
+          ثانياً: درجات الاختبار (١٠ أسئلة — كل سؤال ١٠٠ درجة)
+        </h2>
+        <span class="text-xs font-bold text-slate-600">الدرجة العظمى لكل سؤال: ١٠٠ درجة</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-slate-400 text-xs md:text-sm">
+          <thead>
+            <tr class="bg-emerald-900 text-white">
+              <th class="border border-slate-400 py-2 px-2 text-center w-24">رقم السؤال</th>
+              <th class="border border-slate-400 py-2 px-3 text-right">بيان السؤال / التلاوة والتجويد</th>
+              <th class="border border-slate-400 py-2 px-2 text-center w-28">الدرجة القصوى</th>
+              <th class="border border-slate-400 py-2 px-2 text-center w-32">الدرجة المستحقة</th>
+            </tr>
+          </thead>
+          <tbody id="questions-tbody"></tbody>
+          <tfoot>
+            <tr class="bg-amber-50 font-extrabold text-slate-950">
+              <td colspan="2" class="border border-slate-400 py-2 px-3 text-right">المجموع الكلي للدرجات</td>
+              <td class="border border-slate-400 py-2 px-2 text-center">١٠٠٠</td>
+              <td class="border border-slate-400 py-2 px-2 text-center">......... / ١٠٠٠</td>
+            </tr>
+            <tr class="bg-slate-50 font-bold text-slate-800">
+              <td colspan="4" class="border border-slate-400 py-2.5 px-3 text-right">
+                النسبة المئوية / التقدير: .............................................. &nbsp;&nbsp;&nbsp; ملاحظات اللجنة: ..................................................................
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- توقيع عضوين من لجنة الاختبار -->
+    <section class="pt-3">
+      <h2 class="text-sm font-extrabold text-emerald-950 mb-3">
+        ثالثاً: اعتماد وتوقيع أعضاء لجنة الاختبار
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="border border-slate-400 rounded-xl p-3.5 space-y-4">
+          <div class="text-xs md:text-sm font-extrabold text-slate-900">عضو لجنة الاختبار (١)</div>
+          <div class="text-xs text-slate-700">الاسم: .................................................</div>
+          <div class="text-xs text-slate-700">التوقيع: ...............................................</div>
+        </div>
+        <div class="border border-slate-400 rounded-xl p-3.5 space-y-4">
+          <div class="text-xs md:text-sm font-extrabold text-slate-900">عضو لجنة الاختبار (٢)</div>
+          <div class="text-xs text-slate-700">الاسم: .................................................</div>
+          <div class="text-xs text-slate-700">التوقيع: ...............................................</div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDNeDaIjSi6YQNONboi7V3JCjB4TUu6TOw",
+      authDomain: "mosabaqa2027.firebaseapp.com",
+      projectId: "mosabaqa2027",
+      storageBucket: "mosabaqa2027.firebasestorage.app",
+      messagingSenderId: "884137513531",
+      appId: "1:884137513531:web:97de536633d2d0d573021e",
+      measurementId: "G-VYHNCCTEL8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const COL_NAME = "contestants_2027";
+
+    const arabicOrdinals = [
+      "الأول", "الثاني", "الثالث", "الرابع", "الخامس",
+      "السادس", "السابع", "الثامن", "التاسع", "العاشر"
+    ];
+
+    function buildQuestionsRows() {
+      const tbody = document.getElementById("questions-tbody");
+      tbody.innerHTML = arabicOrdinals.map((ord, idx) => `
+        <tr>
+          <td class="border border-slate-400 py-1.5 px-2 text-center font-bold">${idx + 1}</td>
+          <td class="border border-slate-400 py-1.5 px-3 font-semibold text-slate-800">السؤال ${ord}</td>
+          <td class="border border-slate-400 py-1.5 px-2 text-center font-bold">١٠٠</td>
+          <td class="border border-slate-400 py-1.5 px-2 text-center">.........</td>
+        </tr>
+      `).join("");
+    }
+
+    function hasScheduledExam(scheduleText) {
+      const s = (scheduleText || "").trim();
+      if (!s) return false;
+      return !s.includes("لم يُحدد") && !s.includes("لم يحدد") && !s.includes("يُحدد قريباً");
+    }
+
+    buildQuestionsRows();
+
+    async function loadSheet() {
+      const statusBox = document.getElementById("status-box");
+      const sheetBox = document.getElementById("sheet-box");
+      const params = new URLSearchParams(window.location.search);
+      const code = (params.get("code") || "").trim().toUpperCase();
+
+      if (!code) {
+        statusBox.innerHTML = `<span class="text-red-700">لم يتم تحديد كود المتسابق في الرابط.</span>`;
+        return;
+      }
+
+      try {
+        const q = query(collection(db, COL_NAME), where("code", "==", code));
+        const snap = await getDocs(q);
+        if (snap.empty) {
+          statusBox.innerHTML = `<span class="text-red-700">لم يتم العثور على متسابق بالكود (${code}).</span>`;
+          return;
+        }
+
+        const d = snap.docs[0].data();
+        if (!hasScheduledExam(d.examSchedule)) {
+          statusBox.innerHTML = `
+            <div class="text-amber-900 space-y-2">
+              <p class="text-base font-extrabold">⏳ لم يتم تحديد موعد الاختبار لهذا المتسابق بعد</p>
+              <p class="text-xs text-slate-600">تُتاح استمارة الاختبار للطباعة بعد اعتماد موعد الاختبار من قِبل اللجنة.</p>
+            </div>
+          `;
+          return;
+        }
+
+        document.getElementById("sh-code").textContent = d.code || code;
+        document.getElementById("sh-name").textContent = d.fullName || "-";
+        document.getElementById("sh-nid").textContent = d.nationalId || "-";
+        document.getElementById("sh-phone").textContent = d.phone || "-";
+        document.getElementById("sh-level").textContent = d.level || "-";
+        document.getElementById("sh-schedule").textContent = d.examSchedule || "-";
+
+        statusBox.classList.add("hidden");
+        sheetBox.classList.remove("hidden");
+      } catch (err) {
+        statusBox.innerHTML = `<span class="text-red-700">تعذر تحميل الاستمارة: ${err.message}</span>`;
+      }
+    }
+
+    loadSheet();
+  </script>
+</body>
+</html>
