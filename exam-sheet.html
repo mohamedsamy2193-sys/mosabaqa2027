@@ -15,7 +15,7 @@
 
     @page {
       size: A4 portrait;
-      margin: 6mm;
+      margin: 5mm;
     }
 
     @media print {
@@ -24,9 +24,10 @@
         padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
         height: auto !important;
-        font-size: 11px !important;
-        line-height: 1.25 !important;
+        font-size: 12px !important;
+        line-height: 1.3 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
@@ -38,7 +39,7 @@
       .sheet-container {
         box-shadow: none !important;
         border: 1.5px solid #064e3b !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         max-width: 100% !important;
         width: 100% !important;
         margin: 0 !important;
@@ -58,7 +59,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen py-4 px-3">
+<body class="min-h-screen py-4 px-2 sm:px-4">
 
   <!-- شريط أدوات الطباعة (يختفي عند الطباعة) -->
   <div class="no-print max-w-4xl mx-auto mb-3 bg-white rounded-2xl shadow-sm border border-emerald-200 p-3 flex flex-wrap items-center justify-between gap-3">
@@ -81,11 +82,11 @@
   </div>
 
   <!-- الاستمارة الرسمية -->
-  <article id="sheet-box" class="sheet-container hidden max-w-4xl mx-auto bg-white rounded-2xl shadow-lg border-2 border-emerald-900 p-4 md:p-5 space-y-2.5">
+  <article id="sheet-box" class="sheet-container hidden w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-lg border-2 border-emerald-900 p-4 sm:p-5 space-y-2.5">
 
     <!-- الترويسة -->
     <header class="border-b-2 border-emerald-900 pb-2 text-center">
-      <div class="flex flex-row items-center justify-center gap-2.5">
+      <div class="flex flex-row items-center justify-center gap-3">
         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-emerald-900/40 bg-white p-0.5 overflow-hidden flex items-center justify-center shrink-0">
           <img src="logo.png" alt="شعار لجنة الزكاة بمحلة سبك"
             class="w-full h-full object-contain rounded-full"
@@ -105,73 +106,76 @@
       </div>
     </header>
 
-    <!-- بيانات المتسابق بالترتيب المطلوب -->
-    <section class="bg-emerald-50/50 border border-emerald-800/40 rounded-lg p-2.5">
-      <h2 class="text-xs font-extrabold text-emerald-950 mb-1.5 border-b border-emerald-200 pb-1">
+    <!-- بيانات المتسابق (مكبرة ومنسقة) -->
+    <section class="bg-emerald-50/50 border border-emerald-800/40 rounded-lg p-3">
+      <h2 class="text-xs sm:text-sm font-extrabold text-emerald-950 mb-2 border-b border-emerald-200 pb-1">
         أولاً: بيانات المتسابق وموعد الاختبار
       </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
-        <div class="bg-white border border-slate-200 rounded-md px-2.5 py-1.5 sm:col-span-2">
-          <span class="text-slate-500 font-semibold text-[11px]">الاسم رباعياً: </span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+        <div class="bg-white border border-slate-200 rounded-md px-3 py-2 sm:col-span-2">
+          <span class="text-slate-500 font-semibold text-xs">الاسم رباعياً: </span>
           <span id="sh-name" class="font-extrabold text-slate-900"></span>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md px-2.5 py-1.5 sm:col-span-2">
-          <span class="text-slate-500 font-semibold text-[11px]">المستوى: </span>
+        <div class="bg-white border border-slate-200 rounded-md px-3 py-2 sm:col-span-2">
+          <span class="text-slate-500 font-semibold text-xs">المستوى: </span>
           <span id="sh-level" class="font-extrabold text-emerald-900"></span>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md px-2.5 py-1.5">
-          <span class="text-slate-500 font-semibold text-[11px]">الرقم القومي: </span>
+        <div class="bg-white border border-slate-200 rounded-md px-3 py-2">
+          <span class="text-slate-500 font-semibold text-xs">الرقم القومي: </span>
           <span id="sh-nid" class="font-extrabold text-slate-900" dir="ltr"></span>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md px-2.5 py-1.5">
-          <span class="text-slate-500 font-semibold text-[11px]">رقم الهاتف / الواتساب: </span>
+        <div class="bg-white border border-slate-200 rounded-md px-3 py-2">
+          <span class="text-slate-500 font-semibold text-xs">رقم الهاتف / الواتساب: </span>
           <span id="sh-phone" class="font-extrabold text-slate-900" dir="ltr"></span>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md px-2.5 py-1.5">
-          <span class="text-slate-500 font-semibold text-[11px]">كود المتسابق: </span>
+        <div class="bg-white border border-slate-200 rounded-md px-3 py-2">
+          <span class="text-slate-500 font-semibold text-xs">كود المتسابق: </span>
           <span id="sh-code" class="font-extrabold text-emerald-950" dir="ltr"></span>
         </div>
 
-        <div class="bg-white border border-amber-400 rounded-md px-2.5 py-1.5">
-          <span class="text-amber-900 font-bold text-[11px]">موعد ومكان الاختبار: </span>
+        <div class="bg-white border border-amber-400 rounded-md px-3 py-2">
+          <span class="text-amber-900 font-bold text-xs">موعد ومكان الاختبار: </span>
           <span id="sh-schedule" class="font-extrabold text-slate-950"></span>
         </div>
       </div>
     </section>
 
     <!-- جدول درجات الاختبار: ١٠ أسئلة كل سؤال من ١٠٠ -->
-    <section class="space-y-1">
+    <section class="space-y-1.5">
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <h2 class="text-xs font-extrabold text-emerald-950">
+        <h2 class="text-xs sm:text-sm font-extrabold text-emerald-950">
           ثانياً: درجات الاختبار (١٠ أسئلة — كل سؤال ١٠٠ درجة)
         </h2>
-        <span class="text-[11px] font-bold text-slate-600">الدرجة العظمى لكل سؤال: ١٠٠ درجة</span>
+        <span class="text-xs font-bold text-slate-600">الدرجة العظمى لكل سؤال: ١٠٠ درجة</span>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full border-collapse border border-slate-400 text-xs">
+        <table class="w-full table-fixed border-collapse border border-slate-400 text-xs">
           <thead>
             <tr class="bg-emerald-900 text-white">
-              <th class="border border-slate-400 py-1 px-2 text-center w-20">رقم السؤال</th>
-              <th class="border border-slate-400 py-1 px-2.5 text-right">بيان السؤال / التلاوة والتجويد</th>
-              <th class="border border-slate-400 py-1 px-2 text-center w-24">الدرجة القصوى</th>
-              <th class="border border-slate-400 py-1 px-2 text-center w-28">الدرجة المستحقة</th>
+              <th class="border border-slate-400 py-1.5 px-2 text-center w-20">رقم السؤال</th>
+              <th class="border border-slate-400 py-1.5 px-3 text-right w-44 sm:w-52">بيان السؤال</th>
+              <th class="border border-slate-400 py-1.5 px-2 text-center w-24">الدرجة القصوى</th>
+              <th class="border border-slate-400 py-1.5 px-2 text-center">الدرجة المستحقة</th>
             </tr>
           </thead>
           <tbody id="questions-tbody"></tbody>
           <tfoot>
             <tr class="bg-amber-50 font-extrabold text-slate-950">
-              <td colspan="2" class="border border-slate-400 py-1 px-2.5 text-right">المجموع الكلي للدرجات</td>
-              <td class="border border-slate-400 py-1 px-2 text-center">١٠٠٠</td>
-              <td class="border border-slate-400 py-1 px-2 text-center">......... / ١٠٠٠</td>
+              <td colspan="2" class="border border-slate-400 py-1.5 px-3 text-right">المجموع الكلي للدرجات</td>
+              <td class="border border-slate-400 py-1.5 px-2 text-center">١٠٠٠</td>
+              <td class="border border-slate-400 py-1.5 px-3 text-center tracking-wider">................ / ١٠٠٠</td>
             </tr>
-            <tr class="bg-slate-50 font-bold text-slate-800 text-[11px]">
-              <td colspan="4" class="border border-slate-400 py-1.5 px-2.5 text-right">
-                النسبة المئوية / التقدير: ........................................ &nbsp;&nbsp; ملاحظات اللجنة: .................................................................
+            <tr class="bg-slate-50 font-bold text-slate-800 text-xs">
+              <td colspan="4" class="border border-slate-400 py-2 px-3 text-right leading-relaxed">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span>النسبة المئوية / التقدير: ....................................</span>
+                  <span class="flex-1">ملاحظات اللجنة: .................................................................</span>
+                </div>
               </td>
             </tr>
           </tfoot>
@@ -181,19 +185,19 @@
 
     <!-- توقيع عضوين من لجنة الاختبار -->
     <section class="pt-1">
-      <h2 class="text-xs font-extrabold text-emerald-950 mb-1.5">
+      <h2 class="text-xs sm:text-sm font-extrabold text-emerald-950 mb-1.5">
         ثالثاً: اعتماد وتوقيع أعضاء لجنة الاختبار
       </h2>
       <div class="grid grid-cols-2 gap-3">
-        <div class="border border-slate-400 rounded-lg p-2.5 space-y-2 text-xs">
+        <div class="border border-slate-400 rounded-lg p-2.5 sm:p-3 space-y-2 text-xs">
           <div class="font-extrabold text-slate-900">عضو لجنة الاختبار (١)</div>
-          <div class="text-[11px] text-slate-700">الاسم: ...........................................</div>
-          <div class="text-[11px] text-slate-700">التوقيع: .........................................</div>
+          <div class="text-slate-700">الاسم: ....................................................</div>
+          <div class="text-slate-700">التوقيع: ..................................................</div>
         </div>
-        <div class="border border-slate-400 rounded-lg p-2.5 space-y-2 text-xs">
+        <div class="border border-slate-400 rounded-lg p-2.5 sm:p-3 space-y-2 text-xs">
           <div class="font-extrabold text-slate-900">عضو لجنة الاختبار (٢)</div>
-          <div class="text-[11px] text-slate-700">الاسم: ...........................................</div>
-          <div class="text-[11px] text-slate-700">التوقيع: .........................................</div>
+          <div class="text-slate-700">الاسم: ....................................................</div>
+          <div class="text-slate-700">التوقيع: ..................................................</div>
         </div>
       </div>
     </section>
@@ -228,9 +232,9 @@
       tbody.innerHTML = arabicOrdinals.map((ord, idx) => `
         <tr>
           <td class="border border-slate-400 py-1 px-2 text-center font-bold">${idx + 1}</td>
-          <td class="border border-slate-400 py-1 px-2.5 font-semibold text-slate-800">السؤال ${ord}</td>
+          <td class="border border-slate-400 py-1 px-3 font-semibold text-slate-800">السؤال ${ord}</td>
           <td class="border border-slate-400 py-1 px-2 text-center font-bold">١٠٠</td>
-          <td class="border border-slate-400 py-1 px-2 text-center">.........</td>
+          <td class="border border-slate-400 py-1 px-3 text-center tracking-wider">......................</td>
         </tr>
       `).join("");
     }
