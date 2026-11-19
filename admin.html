@@ -183,6 +183,41 @@
       });
     }
 
+    window.viewCert = (id) => {
+      const item = allContestants.find(x => x.id === id);
+      if (!item?.birthCertImage) {
+        showToast("لا توجد صورة شهادة ميلاد مرفقة لهذا المتسابق", true);
+        return;
+      }
+      const win = window.open("", "_blank");
+      if (win) {
+        win.document.write(`
+          <!DOCTYPE html>
+          <html lang="ar" dir="rtl">
+          <head>
+            <meta charset="UTF-8" />
+            <title>شهادة ميلاد - ${item.fullName}</title>
+            <style>
+              body { margin: 0; background: #0f172a; color: #f8fafc; font-family: Tahoma, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 16px; box-sizing: border-box; }
+              .bar { width: 100%; max-width: 900px; display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 10px 16px; border-radius: 10px; margin-bottom: 14px; font-size: 14px; gap: 10px; flex-wrap: wrap; }
+              img { max-width: 100%; max-height: 82vh; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #fff; }
+            </style>
+          </head>
+          <body>
+            <div class="bar">
+              <div><strong>المتسابق:</strong> ${item.fullName} — <strong>الكود:</strong> ${item.code}</div>
+              <div>${item.birthCertName ? `ملف: ${item.birthCertName}` : ""}</div>
+            </div>
+            <img src="${item.birthCertImage}" alt="شهادة ميلاد ${item.fullName}" />
+          </body>
+          </html>
+        `);
+        win.document.close();
+      } else {
+        showToast("يرجى السماح بفتح النوافذ المنبثقة (Pop-ups) في المتصفح لعرض الصورة", true);
+      }
+    };
+
     window.renderAdminList = () => {
       const txt = document.getElementById("admin-filter-text").value.trim().toLowerCase();
       const lvl = document.getElementById("admin-filter-level").value;
@@ -240,6 +275,12 @@
               <button type="button" onclick="saveUpdates('${c.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-lg">
                 💾 حفظ الموعد والنتيجة
               </button>
+              ${c.birthCertImage
+                ? `<button type="button" onclick="viewCert('${c.id}')" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold px-3.5 py-2 rounded-lg">
+                     🪪 عرض شهادة الميلاد
+                   </button>`
+                : `<span class="text-xs text-gray-400 font-semibold py-2 px-1">لا توجد شهادة مرفقة</span>`
+              }
               <a href="${waUrl}" target="_blank" rel="noopener" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2 rounded-lg inline-flex items-center gap-1">
                 💬 مراسلة واتساب
               </a>
@@ -278,9 +319,17 @@
         showToast("لا توجد بيانات لتصديرها", true);
         return;
       }
-      const headers = ["الكود", "الاسم الكامل", "الرقم القومي", "الهاتف", "المحفظ", "المستوى", "موعد الاختبار", "النتيجة"];
+      const headers = ["الكود", "الاسم الكامل", "الرقم القومي", "الهاتف", "المحفظ", "المستوى", "حالة شهادة الميلاد", "موعد الاختبار", "النتيجة"];
       const rows = allContestants.map(c => [
-        c.code, c.fullName, `'${c.nationalId || ""}`, `'${c.phone || ""}`, c.sheikhName || "", c.level, c.examSchedule || "", c.resultScore || ""
+        c.code,
+        c.fullName,
+        `'${c.nationalId || ""}`,
+        `'${c.phone || ""}`,
+        c.sheikhName || "",
+        c.level,
+        c.birthCertImage ? "مرفقة" : "غير مرفقة",
+        c.examSchedule || "",
+        c.resultScore || ""
       ]);
       const csvContent = "\uFEFF" + [headers, ...rows].map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
