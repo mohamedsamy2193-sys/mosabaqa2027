@@ -30,15 +30,17 @@
   <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6">
     <section id="section-admin" class="space-y-6">
       <!-- شاشة الدخول -->
-      <div id="admin-login-box" class="bg-white rounded-2xl shadow-md border border-emerald-100 p-6 max-w-md mx-auto text-center space-y-4">
+      <form id="admin-login-box" class="bg-white rounded-2xl shadow-md border border-emerald-100 p-6 max-w-md mx-auto text-center space-y-4">
         <h2 class="text-xl font-extrabold text-emerald-900">دخول لجنة الإشراف والتنظيم</h2>
         <p class="text-xs text-gray-500">مخصص لأعضاء لجنة الزكاة بمحلة سبك والمشرفين على المسابقة</p>
-        <input type="password" id="admin-pass" placeholder="أدخل كلمة مرور اللجنة"
+        <input type="email" id="admin-email" required placeholder="البريد الإلكتروني المعتمد للجنة" dir="ltr"
           class="w-full rounded-xl border border-gray-300 px-4 py-3 text-center focus:outline-none focus:border-emerald-600" />
-        <button type="button" onclick="loginAdmin()" class="w-full emerald-grad text-white font-bold py-3 rounded-xl shadow">
+        <input type="password" id="admin-pass" required placeholder="أدخل كلمة مرور اللجنة"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-center focus:outline-none focus:border-emerald-600" />
+        <button type="submit" id="login-btn" class="w-full emerald-grad text-white font-bold py-3 rounded-xl shadow">
           دخول اللوحة
         </button>
-      </div>
+      </form>
 
       <!-- محتوى اللوحة بعد الدخول -->
       <div id="admin-dashboard" class="hidden space-y-5">
@@ -87,6 +89,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
     import { getFirestore, collection, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDNeDaIjSi6YQNONboi7V3JCjB4TUu6TOw",
@@ -100,8 +103,10 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
     const COL_NAME = "contestants_2027";
     let allContestants = [];
+    let unsubscribeList = null;
 
     window.showToast = (msg, isError = false) => {
       const t = document.getElementById("toast");
@@ -116,26 +121,60 @@
       return clean.startsWith('0') ? '2' + clean : clean;
     }
 
-    window.loginAdmin = () => {
+    document.getElementById("admin-login-box").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("login-btn");
+      const email = document.getElementById("admin-email").value.trim();
       const pass = document.getElementById("admin-pass").value;
-      if (pass === "MSamy2027*132000") {
+
+      btn.disabled = true;
+      btn.textContent = "جاري التحقق...";
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        showToast("تم تسجيل دخول اللجنة بنجاح");
+      } catch (err) {
+        console.error(err);
+        showToast("تعذر الدخول: تأكد من صحة البريد الإلكتروني وكلمة المرور", true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "دخول اللوحة";
+      }
+    });
+
+    window.logoutAdmin = async () => {
+      try {
+        if (unsubscribeList) {
+          unsubscribeList();
+          unsubscribeList = null;
+        }
+        await signOut(auth);
+        document.getElementById("admin-pass").value = "";
+        showToast("تم تسجيل الخروج");
+      } catch (err) {
+        showToast("حدث خطأ أثناء الخروج: " + err.message, true);
+      }
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         document.getElementById("admin-login-box").classList.add("hidden");
         document.getElementById("admin-dashboard").classList.remove("hidden");
         startAdminListener();
       } else {
-        showToast("كلمة المرور غير صحيحة", true);
+        if (unsubscribeList) {
+          unsubscribeList();
+          unsubscribeList = null;
+        }
+        allContestants = [];
+        document.getElementById("admin-dashboard").classList.add("hidden");
+        document.getElementById("admin-login-box").classList.remove("hidden");
       }
-    };
-
-    window.logoutAdmin = () => {
-      document.getElementById("admin-pass").value = "";
-      document.getElementById("admin-dashboard").classList.add("hidden");
-      document.getElementById("admin-login-box").classList.remove("hidden");
-    };
+    });
 
     function startAdminListener() {
+      if (unsubscribeList) unsubscribeList();
       const q = query(collection(db, COL_NAME), orderBy("createdAt", "desc"));
-      onSnapshot(q, (snap) => {
+      unsubscribeList = onSnapshot(q, (snap) => {
         allContestants = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
         document.getElementById("total-count").textContent = allContestants.length;
         renderAdminList();
