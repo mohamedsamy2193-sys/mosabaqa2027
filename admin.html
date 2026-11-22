@@ -59,52 +59,11 @@
           </div>
         </div>
 
-        <!-- أداة تسهيل تحديد مواعيد الاختبارات -->
-        <div class="bg-emerald-50/70 rounded-2xl shadow-sm border border-emerald-200 p-4 space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h3 class="text-sm md:text-base font-extrabold text-emerald-950">🗓️ أداة سريعة لتحديد مواعيد الاختبارات</h3>
-              <p class="text-xs text-gray-600">تتيح تعبئة موعد ومكان الاختبار وتطبيقه على مستوى محدد أو على جميع المسجلين دفعة واحدة</p>
-            </div>
-            <div class="flex flex-wrap gap-1.5">
-              <button type="button" onclick="fillSchedulePreset('السبت — الساعة ٤ عصراً بمقر المستوصف الطبي')" class="bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-[11px] font-bold px-2.5 py-1 rounded-lg">
-                قالب: السبت ٤ عصراً
-              </button>
-              <button type="button" onclick="fillSchedulePreset('الأحد — الساعة ٤ عصراً بمقر المستوصف الطبي')" class="bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-[11px] font-bold px-2.5 py-1 rounded-lg">
-                قالب: الأحد ٤ عصراً
-              </button>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-            <select id="bulk-target-level" class="rounded-xl border border-gray-300 px-3 py-2 text-xs md:text-sm bg-white font-semibold">
-              <option value="">كل المستويات المسجلة</option>
-              <option value="المستوى المتميز — مواليد ٢٠٠١ م">المستوى المتميز — مواليد ٢٠٠١ م</option>
-              <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م">المستوى الأول — مواليد ٢٠٠٧ م</option>
-              <option value="المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثاني — مواليد ٢٠٠٧ م</option>
-              <option value="المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثالث — مواليد ٢٠٠٧ م</option>
-              <option value="المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م">المستوى الرابع — مواليد ٢٠١٢ م</option>
-              <option value="المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م">المستوى الخامس — مواليد ٢٠١٤ م</option>
-              <option value="المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م">المستوى السادس — مواليد ٢٠١٥ م</option>
-              <option value="المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م">المستوى السابع — مواليد ٢٠١٦ م</option>
-              <option value="المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م">المستوى الثامن — مواليد ٢٠١٧ م</option>
-            </select>
-
-            <input type="text" id="bulk-schedule-input" placeholder="مثال: الاثنين ٨ فبراير — الساعة ٣ عصراً بمقر اللجنة"
-              class="rounded-xl border border-gray-300 px-3 py-2 text-xs md:text-sm bg-white font-semibold focus:outline-none focus:border-emerald-600" />
-
-            <button type="button" id="bulk-apply-btn" onclick="applyBulkSchedule()"
-              class="emerald-grad hover:opacity-95 text-white text-xs md:text-sm font-extrabold px-4 py-2 rounded-xl shadow">
-              تطبيق الموعد للمحددين
-            </button>
-          </div>
-        </div>
-
-        <!-- فلاتر البحث -->
+        <!-- فلاتر البحث والمستوى -->
         <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <input type="text" id="admin-filter-text" oninput="renderAdminList()" placeholder="بحث بالاسم أو الكود أو رقم الهاتف..."
             class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-600" />
-          <select id="admin-filter-level" onchange="renderAdminList()" class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm bg-white">
+          <select id="admin-filter-level" onchange="renderAdminList()" class="rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm bg-white font-semibold">
             <option value="">كل المستويات</option>
             <option value="المستوى المتميز — مواليد ٢٠٠١ م">المستوى المتميز — مواليد ٢٠٠١ م</option>
             <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م">المستوى الأول — مواليد ٢٠٠٧ م</option>
@@ -116,6 +75,71 @@
             <option value="المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م">المستوى السابع — مواليد ٢٠١٦ م</option>
             <option value="المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م">المستوى الثامن — مواليد ٢٠١٧ م</option>
           </select>
+        </div>
+
+        <!-- أداة توزيع المواعيد للمتسابقين المحددين (تحديد مفتوح بأي عدد) -->
+        <div class="bg-amber-50/80 rounded-2xl shadow-sm border-2 border-amber-300 p-4 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm md:text-base font-extrabold text-amber-950">🗓️ توزيع المواعيد للمتسابقين المحددين</h3>
+              <p class="text-xs text-gray-600">فلتر المستوى أولاً، ثم حدد أي عدد من المتسابقين واختر اليوم والوقت والمكان لتطبيق الموعد عليهم دفعة واحدة</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" onclick="toggleSelectAllVisible(true)"
+                class="bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                تحديد الكل
+              </button>
+              <button type="button" onclick="toggleSelectAllVisible(false)"
+                class="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                إلغاء التحديد
+              </button>
+              <span id="selected-count-badge" class="bg-emerald-800 text-white text-xs font-extrabold px-3 py-1.5 rounded-full">
+                المحدد: ٠
+              </span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-1">
+            <div>
+              <label for="bulk-day-select" class="block text-xs font-bold text-gray-700 mb-1">يوم وتاريخ الاختبار</label>
+              <select id="bulk-day-select" class="w-full rounded-xl border border-gray-300 px-3 py-2 text-xs md:text-sm bg-white font-bold text-gray-900">
+                <option value="الخميس ٢٨ يناير ٢٠٢٧ م">الخميس ٢٨ يناير ٢٠٢٧ م</option>
+                <option value="الجمعة ٢٩ يناير ٢٠٢٧ م">الجمعة ٢٩ يناير ٢٠٢٧ م</option>
+                <option value="السبت ٣٠ يناير ٢٠٢٧ م">السبت ٣٠ يناير ٢٠٢٧ م</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="bulk-time-select" class="block text-xs font-bold text-gray-700 mb-1">الوقت / الساعة</label>
+              <select id="bulk-time-select" class="w-full rounded-xl border border-gray-300 px-3 py-2 text-xs md:text-sm bg-white font-bold text-gray-900">
+                <option value="الساعة ٩:٠٠ صباحاً">الساعة ٩:٠٠ صباحاً</option>
+                <option value="الساعة ١٠:٠٠ صباحاً">الساعة ١٠:٠٠ صباحاً</option>
+                <option value="الساعة ١١:٠٠ صباحاً">الساعة ١١:٠٠ صباحاً</option>
+                <option value="الساعة ١٢:٠٠ ظهراً">الساعة ١٢:٠٠ ظهراً</option>
+                <option value="الساعة ١:٠٠ ظهراً">الساعة ١:٠٠ ظهراً</option>
+                <option value="الساعة ٢:٠٠ ظهراً">الساعة ٢:٠٠ ظهراً</option>
+                <option value="الساعة ٣:٠٠ عصراً">الساعة ٣:٠٠ عصراً</option>
+                <option value="الساعة ٤:٠٠ عصراً" selected>الساعة ٤:٠٠ عصراً</option>
+                <option value="الساعة ٥:٠٠ عصراً">الساعة ٥:٠٠ عصراً</option>
+                <option value="الساعة ٦:٠٠ مساءً">الساعة ٦:٠٠ مساءً</option>
+                <option value="بعد صلاة المغرب">بعد صلاة المغرب</option>
+                <option value="بعد صلاة العشاء">بعد صلاة العشاء</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="bulk-place-input" class="block text-xs font-bold text-gray-700 mb-1">المكان</label>
+              <input type="text" id="bulk-place-input" value="المستوصف الطبي الخيري"
+                class="w-full rounded-xl border border-gray-300 px-3 py-2 text-xs md:text-sm bg-white font-bold text-gray-900 focus:outline-none focus:border-emerald-600" />
+            </div>
+
+            <div class="flex items-end">
+              <button type="button" id="bulk-apply-btn" onclick="applyScheduleToSelected()"
+                class="w-full emerald-grad hover:opacity-95 text-white text-xs md:text-sm font-extrabold px-4 py-2.5 rounded-xl shadow transition">
+                ✅ تطبيق الموعد على المحددين
+              </button>
+            </div>
+          </div>
         </div>
 
         <div id="admin-list" class="space-y-3"></div>
@@ -148,6 +172,47 @@
     const COL_NAME = "contestants_2027";
     let allContestants = [];
     let unsubscribeList = null;
+    const selectedIds = new Set();
+
+    function toArabicDigits(num) {
+      const digits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+      return String(num).replace(/\d/g, d => digits[Number(d)]);
+    }
+
+    function updateSelectedCounter() {
+      const badge = document.getElementById("selected-count-badge");
+      if (badge) {
+        badge.textContent = `المحدد: ${toArabicDigits(selectedIds.size)}`;
+      }
+    }
+
+    function getVisibleRowCheckboxes() {
+      return Array.from(document.querySelectorAll(".row-select-checkbox"));
+    }
+
+    window.onRowCheckboxChange = (checkbox) => {
+      const id = checkbox.dataset.id;
+      if (!id) return;
+      if (checkbox.checked) selectedIds.add(id);
+      else selectedIds.delete(id);
+      updateSelectedCounter();
+    };
+
+    window.toggleSelectAllVisible = (checked) => {
+      getVisibleRowCheckboxes().forEach((cb) => {
+        cb.checked = checked;
+        if (checked) selectedIds.add(cb.dataset.id);
+        else selectedIds.delete(cb.dataset.id);
+      });
+      updateSelectedCounter();
+    };
+
+    function buildCombinedSchedule() {
+      const day = (document.getElementById("bulk-day-select").value || "").trim();
+      const time = (document.getElementById("bulk-time-select").value || "").trim();
+      const place = (document.getElementById("bulk-place-input").value || "المستوصف الطبي الخيري").trim();
+      return [day, time, place].filter(Boolean).join(" — ");
+    }
 
     window.showToast = (msg, isError = false) => {
       const t = document.getElementById("toast");
@@ -157,25 +222,20 @@
       setTimeout(() => t.classList.add("hidden"), 4500);
     };
 
-    window.fillSchedulePreset = (presetText) => {
-      document.getElementById("bulk-schedule-input").value = presetText;
-    };
+    window.applyScheduleToSelected = async () => {
+      const idsToUpdate = Array.from(selectedIds);
+      if (!idsToUpdate.length) {
+        showToast("يرجى تحديد متسابق واحد أو أكثر أولاً", true);
+        return;
+      }
 
-    window.applyBulkSchedule = async () => {
-      const targetLevel = document.getElementById("bulk-target-level").value;
-      const scheduleText = document.getElementById("bulk-schedule-input").value.trim();
+      const scheduleText = buildCombinedSchedule();
       if (!scheduleText) {
-        showToast("يرجى كتابة موعد ومكان الاختبار أولاً", true);
+        showToast("يرجى اختيار اليوم والوقت والمكان أولاً", true);
         return;
       }
 
-      const targets = allContestants.filter(c => !targetLevel || c.level === targetLevel);
-      if (!targets.length) {
-        showToast("لا يوجد متسابقون مطابقون للاختيار المحدد", true);
-        return;
-      }
-
-      if (!confirm(`سيتم تحديث موعد الاختبار لعدد (${targets.length}) متسابق. هل تريد المتابعة؟`)) return;
+      if (!confirm(`سيتم تطبيق الموعد التالي:\n(${scheduleText})\nعلى عدد (${idsToUpdate.length}) متسابق محدد. هل تريد المتابعة؟`)) return;
 
       const btn = document.getElementById("bulk-apply-btn");
       btn.disabled = true;
@@ -183,21 +243,21 @@
 
       try {
         const chunkSize = 400;
-        for (let i = 0; i < targets.length; i += chunkSize) {
+        for (let i = 0; i < idsToUpdate.length; i += chunkSize) {
           const batch = writeBatch(db);
-          const slice = targets.slice(i, i + chunkSize);
-          slice.forEach(item => {
-            const ref = doc(db, COL_NAME, item.id);
+          const slice = idsToUpdate.slice(i, i + chunkSize);
+          slice.forEach(id => {
+            const ref = doc(db, COL_NAME, id);
             batch.update(ref, { examSchedule: scheduleText });
           });
           await batch.commit();
         }
-        showToast(`تم تحديث موعد الاختبار لـ ${targets.length} متسابق بنجاح!`);
+        showToast(`تم تحديث موعد الاختبار لـ ${idsToUpdate.length} متسابق بنجاح!`);
       } catch (err) {
-        showToast("تعذر تطبيق الموعد الجماعي: " + err.message, true);
+        showToast("تعذر تطبيق الموعد على المحددين: " + err.message, true);
       } finally {
         btn.disabled = false;
-        btn.textContent = "تطبيق الموعد للمحددين";
+        btn.textContent = "✅ تطبيق الموعد على المحددين";
       }
     };
 
@@ -233,6 +293,8 @@
           unsubscribeList = null;
         }
         await signOut(auth);
+        selectedIds.clear();
+        updateSelectedCounter();
         document.getElementById("admin-pass").value = "";
         showToast("تم تسجيل الخروج");
       } catch (err) {
@@ -251,6 +313,8 @@
           unsubscribeList = null;
         }
         allContestants = [];
+        selectedIds.clear();
+        updateSelectedCounter();
         document.getElementById("admin-dashboard").classList.add("hidden");
         document.getElementById("admin-login-box").classList.remove("hidden");
       }
@@ -261,6 +325,10 @@
       const q = query(collection(db, COL_NAME), orderBy("createdAt", "desc"));
       unsubscribeList = onSnapshot(q, (snap) => {
         allContestants = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+        const currentIds = new Set(allContestants.map(c => c.id));
+        Array.from(selectedIds).forEach(id => {
+          if (!currentIds.has(id)) selectedIds.delete(id);
+        });
         document.getElementById("total-count").textContent = allContestants.length;
         renderAdminList();
       }, (err) => {
@@ -319,6 +387,7 @@
 
       if (!filtered.length) {
         container.innerHTML = `<div class="bg-white rounded-xl p-6 text-center text-gray-500 font-bold">لا توجد بيانات مطابقة حالياً.</div>`;
+        updateSelectedCounter();
         return;
       }
 
@@ -333,13 +402,18 @@
         );
         const waUrl = `https://wa.me/${formatWhatsAppPhone(c.phone || "")}?text=${waMsg}`;
         const sheetUrl = `exam-sheet.html?code=${encodeURIComponent(c.code)}`;
+        const isChecked = selectedIds.has(c.id) ? "checked" : "";
 
         return `
           <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-4 space-y-3">
             <div class="flex flex-wrap justify-between items-start gap-2 border-b border-gray-100 pb-2">
-              <div>
-                <h3 class="font-extrabold text-gray-900 text-base">${c.fullName}</h3>
-                <p class="text-xs font-bold text-emerald-700">${c.level}</p>
+              <div class="flex items-start gap-2.5">
+                <input type="checkbox" data-id="${c.id}" ${isChecked} onchange="onRowCheckboxChange(this)"
+                  class="row-select-checkbox mt-1 w-4 h-4 accent-emerald-700 rounded cursor-pointer" />
+                <div>
+                  <h3 class="font-extrabold text-gray-900 text-base">${c.fullName}</h3>
+                  <p class="text-xs font-bold text-emerald-700">${c.level}</p>
+                </div>
               </div>
               <span class="bg-emerald-100 text-emerald-900 font-extrabold text-xs px-3 py-1 rounded-full" dir="ltr">${c.code}</span>
             </div>
@@ -379,6 +453,8 @@
           </div>
         `;
       }).join("");
+
+      updateSelectedCounter();
     };
 
     window.saveUpdates = async (id) => {
@@ -395,6 +471,7 @@
     window.deleteEntry = async (id, name) => {
       if (!confirm(`هل أنت متأكد من حذف بيانات المتسابق: ${name}؟`)) return;
       try {
+        selectedIds.delete(id);
         await deleteDoc(doc(db, COL_NAME, id));
         showToast("تم حذف المتسابق");
       } catch (err) {
