@@ -38,13 +38,16 @@
 
   <!-- شريط التنقل -->
   <nav class="bg-white shadow-sm sticky top-0 z-20 border-b border-emerald-100">
-    <div class="max-w-4xl mx-auto px-2 py-2 flex justify-center gap-2">
-      <button type="button" onclick="switchTab('register')" id="tab-register" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-emerald-700 text-white shadow transition">
+    <div class="max-w-4xl mx-auto px-2 py-2 flex flex-wrap justify-center gap-2">
+      <button type="button" onclick="switchTab('register')" id="tab-register" class="tab-btn flex-1 min-w-[110px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm md:text-base bg-emerald-700 text-white shadow transition">
         تسجيل متسابق
       </button>
-      <button type="button" onclick="switchTab('inquiry')" id="tab-inquiry" class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-bold text-sm md:text-base bg-gray-100 text-gray-700 hover:bg-emerald-50 transition">
+      <button type="button" onclick="switchTab('inquiry')" id="tab-inquiry" class="tab-btn flex-1 min-w-[110px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm md:text-base bg-gray-100 text-gray-700 hover:bg-emerald-50 transition">
         الاستعلام بالكود
       </button>
+      <a href="announcement.html" class="flex-1 min-w-[110px] text-center py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm md:text-base bg-amber-50 text-amber-950 border border-amber-300 hover:bg-amber-100 transition">
+        📢 إعلان المسابقة
+      </a>
     </div>
   </nav>
 
@@ -61,14 +64,14 @@
             <h2 class="text-lg md:text-xl font-extrabold text-emerald-900">شروط وضوابط المسابقة</h2>
             <p class="text-xs text-gray-500">يرجى قراءة الشروط وشروط السن لكل مستوى قبل تعبئة الاستمارة</p>
           </div>
-          <span class="bg-amber-100 text-amber-900 text-xs font-extrabold px-3 py-1 rounded-full">
-            ١٤٤٨ هـ / ٢٠٢٧ م
-          </span>
+          <a href="announcement.html" class="bg-amber-100 hover:bg-amber-200 text-amber-950 text-xs font-extrabold px-3 py-1.5 rounded-full transition">
+            📄 عرض الإعلان الرسمي الكامل
+          </a>
         </div>
 
         <ul class="space-y-2 text-xs md:text-sm text-gray-700 leading-relaxed list-disc pr-5">
           <li><strong>الإقامة:</strong> التسجيل متاح لأبناء والمقيمين داخل <strong>قرية محلة سبك</strong> وفق ضوابط اللجنة.</li>
-          <li><strong>السن حسب المستوى:</strong> الالتزام بشرط السن الموضح بجانب كل مستوى .</li>
+          <li><strong>السن حسب المستوى:</strong> الالتزام بشرط السن الموضح بجانب كل مستوى (مواليد ٢٠٠١ م للمتميز، مواليد ٢٠٠٧ م للأول والثاني والثالث، مواليد ٢٠١٢ م للرابع، مواليد ٢٠١٤ م للخامس، مواليد ٢٠١٥ م للسادس، مواليد ٢٠١٦ م للسابع، مواليد ٢٠١٧ م للثامن).</li>
           <li><strong>صحة البيانات وشهادة الميلاد:</strong> إدخال الاسم رباعياً والرقم القومي (١٤ رقماً) ورقم الهاتف بدقة، مع <strong>إرفاق صورة واضحة لشهادة الميلاد كشرط إجباري</strong> لإتمام التسجيل.</li>
           <li><strong>استمارة الاختبار والنتائج:</strong> تظهر استمارة الاختبار المطبوعة في صفحة الاستعلام بالكود بعد تحديد اللجنة لموعد الاختبار، والنتائج المعتمدة نهائية.</li>
         </ul>
@@ -253,6 +256,12 @@
       active.classList.remove('bg-gray-100', 'text-gray-700');
       active.classList.add('bg-emerald-700', 'text-white', 'shadow');
     };
+
+    // فتح تبويب الاستعلام تلقائياً عند القدوم من صفحة الإعلان عبر ?tab=inquiry
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("tab") === "inquiry" || window.location.hash === "#section-inquiry") {
+      window.switchTab("inquiry");
+    }
 
     function generateCode() {
       const rand = Math.floor(1000 + Math.random() * 9000);
