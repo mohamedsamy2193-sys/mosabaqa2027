@@ -89,7 +89,7 @@
               class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
           </div>
 
-          <!-- إرفاق صورة شهادة الميلاد أولاً لاستخراج الرقم القومي وتاريخ الميلاد تلقائياً -->
+          <!-- إرفاق صورة شهادة الميلاد لاستخراج الرقم القومي وتاريخ الميلاد تلقائياً -->
           <div>
             <label for="birthCert" class="block text-sm font-bold text-gray-700 mb-1">
               صورة شهادة الميلاد <span class="text-red-600">*</span> (إجباري - صورة فقط)
@@ -97,24 +97,25 @@
             <input type="file" id="birthCert" accept="image/*" required onchange="handleBirthCertChange(this)"
               class="block w-full text-xs sm:text-sm text-gray-700 file:ml-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800 hover:file:bg-emerald-100 border border-gray-300 rounded-xl p-1.5 bg-white focus:outline-none focus:border-emerald-600" />
             <p class="text-xs text-gray-500 mt-1">
-              يتم قراءة صورة شهادة الميلاد تلقائياً لاستخراج الرقم القومي وتاريخ الميلاد، وضغط الصورة لتكون بحجم صغير.
+              يتم محاولة استخراج الرقم القومي وتاريخ الميلاد تلقائياً من صورة شهادة الميلاد، وضغط الصورة لتكون بحجم صغير.
             </p>
-            <div id="ocr-status-box" class="hidden mt-2.5 rounded-xl p-3 text-xs font-bold border"></div>
+            <div id="ocr-status-box" class="hidden mt-2.5 rounded-xl p-3 text-xs font-bold border leading-relaxed"></div>
           </div>
 
-          <!-- الرقم القومي وتاريخ الميلاد (يُملآن تلقائياً من شهادة الميلاد) -->
+          <!-- الرقم القومي وتاريخ الميلاد -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label for="nationalId" class="block text-sm font-bold text-gray-700 mb-1">
-                الرقم القومي (١٤ رقماً) * <span class="text-xs text-emerald-700 font-semibold">(يُستخرج تلقائياً)</span>
+                الرقم القومي (١٤ رقماً) * <span class="text-xs text-emerald-700 font-semibold">(تلقائي + يدوي عند الحاجة)</span>
               </label>
               <input type="text" id="nationalId" required maxlength="14" minlength="14" pattern="\d{14}" inputmode="numeric"
+                oninput="onNationalIdManualInput(this)"
                 placeholder="يُستخرج تلقائياً من شهادة الميلاد"
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-emerald-50/40 font-bold tracking-wider focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
             </div>
             <div>
               <label for="birthDate" class="block text-sm font-bold text-gray-700 mb-1">
-                تاريخ الميلاد * <span class="text-xs text-emerald-700 font-semibold">(يُستخرج تلقائياً)</span>
+                تاريخ الميلاد * <span class="text-xs text-emerald-700 font-semibold">(يُضبط تلقائياً من الرقم القومي)</span>
               </label>
               <input type="date" id="birthDate" required onchange="syncBirthYearFromDate()"
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-emerald-50/40 font-bold focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
@@ -265,16 +266,15 @@
       }
       box.classList.remove("hidden");
       if (type === "success") {
-        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border bg-emerald-50 text-emerald-900 border-emerald-300";
+        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border leading-relaxed bg-emerald-50 text-emerald-900 border-emerald-300";
       } else if (type === "error") {
-        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border bg-red-50 text-red-900 border-red-300";
+        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border leading-relaxed bg-red-50 text-red-900 border-red-300";
       } else {
-        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border bg-amber-50 text-amber-950 border-amber-300";
+        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border leading-relaxed bg-amber-50 text-amber-950 border-amber-300";
       }
       box.textContent = message;
     }
 
-    // استخراج تاريخ الميلاد من الرقم القومي المصري (١٤ رقماً)
     function parseEgyptianNationalId(nid) {
       if (!/^\d{14}$/.test(nid)) return null;
       const centuryDigit = nid[0];
@@ -308,27 +308,50 @@
       };
     }
 
+    // مزامنة تاريخ الميلاد تلقائياً عند إدخال أو تعديل الرقم القومي
+    window.onNationalIdManualInput = (el) => {
+      const clean = normalizeDigitsToAscii(el.value).replace(/\D/g, "").slice(0, 14);
+      if (el.value !== clean) el.value = clean;
+      if (clean.length === 14) {
+        const parsed = parseEgyptianNationalId(clean);
+        if (parsed) {
+          document.getElementById("birthDate").value = parsed.isoDate;
+          extractedBirthYear = String(parsed.year);
+        }
+      }
+    };
+
     function extractNationalIdFromText(rawText) {
       const ascii = normalizeDigitsToAscii(rawText);
-      // البحث عن تسلسلات أرقام بطول 14 رقماً (أو مقسمة بمسافات/شرطات)
-      const directMatches = ascii.match(/[23]\d{13}/g) || [];
-      for (const candidate of directMatches) {
-        const parsed = parseEgyptianNationalId(candidate);
-        if (parsed) {
-          return { nationalId: candidate, ...parsed };
+      const candidates = [];
+
+      const directMatches = ascii.match(/[23][\d\s-]{13,22}/g) || [];
+      for (const m of directMatches) {
+        const digitsOnly = m.replace(/\D/g, "");
+        if (digitsOnly.length >= 14) {
+          candidates.push(digitsOnly.slice(0, 14));
         }
       }
 
-      const compact = ascii.replace(/[^0-9]/g, "");
+      const compact = ascii.replace(/\D/g, "");
       const compactMatches = compact.match(/[23]\d{13}/g) || [];
-      for (const candidate of compactMatches) {
+      for (const m of compactMatches) {
+        candidates.push(m);
+      }
+
+      for (const candidate of candidates) {
         const parsed = parseEgyptianNationalId(candidate);
         if (parsed) {
           return { nationalId: candidate, ...parsed };
         }
       }
 
-      return null;
+      // التقاط أقرب سلسلة أرقام طويلة (12 إلى 14 رقماً) لعرضها في التنبيه إذا لم يكتمل التحقق
+      const longRuns = compact.match(/\d{12,14}/g) || [];
+      return {
+        nationalId: null,
+        partialDigits: longRuns[0] || ""
+      };
     }
 
     async function loadFileAsImage(file) {
@@ -345,24 +368,21 @@
       });
     }
 
-    // تجهيز صورة عالية التباين لزيادة دقة قراءة الأرقام في شهادة الميلاد
-    function buildHighContrastCanvasForOCR(img) {
-      const targetW = Math.min(2000, Math.max(1200, img.width * 1.5));
+    function buildCanvasVariant(img, mode) {
+      const targetW = Math.min(2200, Math.max(1200, img.width * 1.5));
       const scale = targetW / img.width;
       const canvas = document.createElement("canvas");
       canvas.width = Math.max(1, Math.round(img.width * scale));
       canvas.height = Math.max(1, Math.round(img.height * scale));
       const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imgData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-        const boosted = gray > 155 ? 255 : Math.max(0, (gray - 80) * 1.6);
-        data[i] = data[i + 1] = data[i + 2] = boosted;
+      if (mode === "contrast") {
+        ctx.filter = "grayscale(100%) contrast(155%) brightness(108%)";
+      } else {
+        ctx.filter = "grayscale(100%) contrast(115%)";
       }
-      ctx.putImageData(imgData, 0, 0);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      ctx.filter = "none";
       return canvas;
     }
 
@@ -394,31 +414,44 @@
 
       try {
         const img = await loadFileAsImage(file);
-        const ocrCanvas = buildHighContrastCanvasForOCR(img);
-        const { data } = await Tesseract.recognize(ocrCanvas, "ara+eng", {
-          tessedit_char_whitelist: "0123456789٠١٢٣٤٥٦٧٨٩"
-        });
+        const modes = ["normal", "contrast"];
+        let bestPartial = "";
 
-        const result = extractNationalIdFromText(data?.text || "");
-        if (result) {
-          nidInput.value = result.nationalId;
-          dobInput.value = result.isoDate;
-          extractedBirthYear = String(result.year);
-          setOcrStatus(
-            "success",
-            `✅ تم استخراج الرقم القومي (${result.nationalId}) وتاريخ الميلاد (${result.isoDate}) تلقائياً من شهادة الميلاد. يُرجى مراجعة صحتهما.`
-          );
-        } else {
-          setOcrStatus(
-            "error",
-            "⚠️ تعذر قراءة الرقم القومي وتاريخ الميلاد بوضوح من شهادة الميلاد بسبب جودة التصوير أو الإضاءة. يُرجى تصوير شهادة الميلاد بوضوح وإضاءة جيدة أو إدخال البيانات يدوياً مع مراجعتها."
-          );
+        for (const mode of modes) {
+          const canvas = buildCanvasVariant(img, mode);
+          const { data } = await Tesseract.recognize(canvas, "ara+eng", {
+            tessedit_char_whitelist: "0123456789٠١٢٣٤٥٦٧٨٩"
+          });
+
+          const extracted = extractNationalIdFromText(data?.text || "");
+          if (extracted?.nationalId) {
+            nidInput.value = extracted.nationalId;
+            dobInput.value = extracted.isoDate;
+            extractedBirthYear = String(extracted.year);
+            setOcrStatus(
+              "success",
+              `✅ تم استخراج الرقم القومي (${extracted.nationalId}) وتاريخ الميلاد (${extracted.isoDate}) تلقائياً من شهادة الميلاد. يُرجى مراجعة صحتهما.`
+            );
+            return;
+          }
+          if (extracted?.partialDigits && extracted.partialDigits.length > bestPartial.length) {
+            bestPartial = extracted.partialDigits;
+          }
         }
+
+        const hintExtra = bestPartial
+          ? ` (تم التقاط أرقام غير مكتملة: ${bestPartial} — يُرجى مراجعة وضوح الصورة أو إدخال الرقم القومي وتاريخ الميلاد يدوياً).`
+          : " يُرجى تصوير شهادة الميلاد بإضاءة واضحة وبشكل مستقيم أو إدخال الرقم القومي وتاريخ الميلاد يدوياً.";
+
+        setOcrStatus(
+          "error",
+          "⚠️ تعذر قراءة الرقم القومي وتاريخ الميلاد بوضوح من شهادة الميلاد بسبب جودة التصوير." + hintExtra
+        );
       } catch (err) {
         console.error(err);
         setOcrStatus(
           "error",
-          "⚠️ تعذر قراءة شهادة الميلاد بسبب جودة الصورة؛ يُرجى إعادة رفع صورة أوضح لشهادة الميلاد."
+          "⚠️ تعذر قراءة شهادة الميلاد بسبب جودة الصورة؛ يُرجى إعادة رفع صورة أوضح أو إدخال البيانات يدوياً."
         );
       } finally {
         isReadingCert = false;
@@ -527,7 +560,7 @@
       const disqConfirmEl = document.getElementById("disqualificationConfirm");
 
       const fullName = fullNameEl.value.trim();
-      const nationalId = normalizeDigitsToAscii(nationalIdEl.value).trim();
+      const nationalId = normalizeDigitsToAscii(nationalIdEl.value).replace(/\D/g, "").trim();
       const birthDate = birthDateEl.value.trim();
       const phone = normalizeDigitsToAscii(phoneEl.value).trim();
       const level = levelEl.value;
