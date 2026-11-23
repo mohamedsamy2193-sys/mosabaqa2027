@@ -6,6 +6,7 @@
   <title>المسابقة السنوية لحفظ القرآن الكريم - لجنة الزكاة بمحلة سبك ٢٠٢٧ م / ١٤٤٨ هـ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     body { font-family: 'Cairo', sans-serif; background-color: #f4f7f5; color: #1e293b; }
     .emerald-grad { background: linear-gradient(135deg, #064e3b 0%, #047857 100%); }
@@ -69,7 +70,7 @@
         <ul class="space-y-2 text-xs md:text-sm text-gray-700 leading-relaxed list-disc pr-5">
           <li><strong>الإقامة:</strong> التسجيل متاح لأبناء والمقيمين داخل <strong>قرية محلة سبك</strong> وفق ضوابط اللجنة.</li>
           <li><strong>السن حسب المستوى:</strong> الالتزام بشرط السن الموضح بجانب كل مستوى (مواليد ٢٠٠١ م للمتميز، مواليد ٢٠٠٧ م للأول والثاني والثالث، مواليد ٢٠١٢ م للرابع، مواليد ٢٠١٤ م للخامس، مواليد ٢٠١٥ م للسادس، مواليد ٢٠١٦ م للسابع، مواليد ٢٠١٧ م للثامن).</li>
-          <li><strong>صحة البيانات وشهادة الميلاد:</strong> إدخال الاسم رباعياً والرقم القومي (١٤ رقماً) ورقم الهاتف بدقة، مع <strong>إرفاق صورة واضحة لشهادة الميلاد كشرط إجباري</strong> لإتمام التسجيل.</li>
+          <li><strong>صحة البيانات وشهادة الميلاد:</strong> إدخال الاسم رباعياً ورقم الهاتف بدقة، مع <strong>إرفاق صورة واضحة لشهادة الميلاد كشرط إجباري</strong> لاستخراج الرقم القومي وتاريخ الميلاد تلقائياً وإتمام التسجيل.</li>
           <li><strong>استمارة الاختبار والنتائج:</strong> تظهر استمارة الاختبار المطبوعة في صفحة الاستعلام بالكود بعد تحديد اللجنة لموعد الاختبار، والنتائج المعتمدة نهائية.</li>
           <li><strong>الالتزام بالشروط:</strong> في حالة مخالفة أي شرط من شروط المسابقة أو عدم صحة البيانات المقدمة، يحق للجنة المنظمة استبعاد المتقدم دون الرجوع إليه.</li>
         </ul>
@@ -88,46 +89,61 @@
               class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
           </div>
 
+          <!-- إرفاق صورة شهادة الميلاد أولاً لاستخراج الرقم القومي وتاريخ الميلاد تلقائياً -->
+          <div>
+            <label for="birthCert" class="block text-sm font-bold text-gray-700 mb-1">
+              صورة شهادة الميلاد <span class="text-red-600">*</span> (إجباري - صورة فقط)
+            </label>
+            <input type="file" id="birthCert" accept="image/*" required onchange="handleBirthCertChange(this)"
+              class="block w-full text-xs sm:text-sm text-gray-700 file:ml-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800 hover:file:bg-emerald-100 border border-gray-300 rounded-xl p-1.5 bg-white focus:outline-none focus:border-emerald-600" />
+            <p class="text-xs text-gray-500 mt-1">
+              يتم قراءة صورة شهادة الميلاد تلقائياً لاستخراج الرقم القومي وتاريخ الميلاد، وضغط الصورة لتكون بحجم صغير.
+            </p>
+            <div id="ocr-status-box" class="hidden mt-2.5 rounded-xl p-3 text-xs font-bold border"></div>
+          </div>
+
+          <!-- الرقم القومي وتاريخ الميلاد (يُملآن تلقائياً من شهادة الميلاد) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-bold text-gray-700 mb-1">الرقم القومي (١٤ رقماً) *</label>
-              <input type="text" id="nationalId" required maxlength="14" minlength="14" pattern="\d{14}" inputmode="numeric" placeholder="أدخل ١٤ رقماً من واقع شهادة الميلاد أو البطاقة"
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+              <label for="nationalId" class="block text-sm font-bold text-gray-700 mb-1">
+                الرقم القومي (١٤ رقماً) * <span class="text-xs text-emerald-700 font-semibold">(يُستخرج تلقائياً)</span>
+              </label>
+              <input type="text" id="nationalId" required maxlength="14" minlength="14" pattern="\d{14}" inputmode="numeric"
+                placeholder="يُستخرج تلقائياً من شهادة الميلاد"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-emerald-50/40 font-bold tracking-wider focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
             </div>
+            <div>
+              <label for="birthDate" class="block text-sm font-bold text-gray-700 mb-1">
+                تاريخ الميلاد * <span class="text-xs text-emerald-700 font-semibold">(يُستخرج تلقائياً)</span>
+              </label>
+              <input type="date" id="birthDate" required onchange="syncBirthYearFromDate()"
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-emerald-50/40 font-bold focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-bold text-gray-700 mb-1">رقم الهاتف / الواتساب *</label>
               <input type="tel" id="phone" required pattern="01[0125][0-9]{8}" maxlength="11" inputmode="numeric" placeholder="01xxxxxxxxx"
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100" />
             </div>
-          </div>
 
-          <div>
-            <label for="level" class="block text-sm font-bold text-gray-700 mb-1">المستوى المتقدم إليه وشرط السن *</label>
-            <select id="level" onchange="updateSelectedAgeNote()" required class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 font-semibold text-gray-800">
-              <option value="">-- اختر المستوى المناسب --</option>
-              <option value="المستوى المتميز — مواليد ٢٠٠١ م">المستوى المتميز — مواليد ٢٠٠١ م</option>
-              <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م</option>
-              <option value="المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م</option>
-              <option value="المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م</option>
-              <option value="المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م">المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م</option>
-              <option value="المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م">المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م</option>
-              <option value="المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م">المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م</option>
-              <option value="المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م">المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م</option>
-              <option value="المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م">المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م</option>
-            </select>
-            <p id="selected-age-note" class="text-xs font-bold text-emerald-800 mt-1.5 hidden"></p>
-          </div>
-
-          <!-- إرفاق صورة شهادة الميلاد (إجباري - صورة فقط) -->
-          <div>
-            <label for="birthCert" class="block text-sm font-bold text-gray-700 mb-1">
-              صورة شهادة الميلاد <span class="text-red-600">*</span> (إجباري - صورة فقط)
-            </label>
-            <input type="file" id="birthCert" accept="image/*" required
-              class="block w-full text-xs sm:text-sm text-gray-700 file:ml-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800 hover:file:bg-emerald-100 border border-gray-300 rounded-xl p-1.5 bg-white focus:outline-none focus:border-emerald-600" />
-            <p class="text-xs text-gray-500 mt-1">
-              مطلوب إرفاق صورة واضحة لشهادة الميلاد لتطابق السن والبيانات، وسيتم ضغطها تلقائياً لتكون بحجم صغير.
-            </p>
+            <div>
+              <label for="level" class="block text-sm font-bold text-gray-700 mb-1">المستوى المتقدم إليه وشرط السن *</label>
+              <select id="level" onchange="updateSelectedAgeNote()" required class="w-full rounded-xl border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 font-semibold text-gray-800">
+                <option value="">-- اختر المستوى المناسب --</option>
+                <option value="المستوى المتميز — مواليد ٢٠٠١ م">المستوى المتميز — مواليد ٢٠٠١ م</option>
+                <option value="المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م">المستوى الأول ( القرآن الكريم كاملاً مع احكام التجويد والتلاوة ) — مواليد ٢٠٠٧ م</option>
+                <option value="المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثاني ( خمسة وعشرون جزءا ) — مواليد ٢٠٠٧ م</option>
+                <option value="المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م">المستوى الثالث ( عشرون جزءا ) — مواليد ٢٠٠٧ م</option>
+                <option value="المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م">المستوى الرابع ( خمسة عشر جزءا ) — مواليد ٢٠١٢ م</option>
+                <option value="المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م">المستوى الخامس ( عشرة اجزاء ) — مواليد ٢٠١٤ م</option>
+                <option value="المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م">المستوى السادس ( ربع القرآن الكريم ) — مواليد ٢٠١٥ م</option>
+                <option value="المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م">المستوى السابع ( خمسة اجزاء ) — مواليد ٢٠١٦ م</option>
+                <option value="المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م">المستوى الثامن ( ثلاثة اجزاء ) — مواليد ٢٠١٧ م</option>
+              </select>
+              <p id="selected-age-note" class="text-xs font-bold text-emerald-800 mt-1.5 hidden"></p>
+            </div>
           </div>
 
           <!-- الإقرارات -->
@@ -231,6 +247,183 @@
     const db = getFirestore(app);
     const COL_NAME = "contestants_2027";
     const UNSET_SCHEDULE_TEXT = "لم يُحدد بعد — يُرجى المتابعة بالكود";
+    let isReadingCert = false;
+    let extractedBirthYear = "";
+
+    function normalizeDigitsToAscii(str) {
+      const arabicMap = { "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4", "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9" };
+      return String(str || "").replace(/[٠-٩]/g, d => arabicMap[d] || d);
+    }
+
+    function setOcrStatus(type, message) {
+      const box = document.getElementById("ocr-status-box");
+      if (!box) return;
+      if (!message) {
+        box.classList.add("hidden");
+        box.textContent = "";
+        return;
+      }
+      box.classList.remove("hidden");
+      if (type === "success") {
+        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border bg-emerald-50 text-emerald-900 border-emerald-300";
+      } else if (type === "error") {
+        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border bg-red-50 text-red-900 border-red-300";
+      } else {
+        box.className = "mt-2.5 rounded-xl p-3 text-xs font-bold border bg-amber-50 text-amber-950 border-amber-300";
+      }
+      box.textContent = message;
+    }
+
+    // استخراج تاريخ الميلاد من الرقم القومي المصري (١٤ رقماً)
+    function parseEgyptianNationalId(nid) {
+      if (!/^\d{14}$/.test(nid)) return null;
+      const centuryDigit = nid[0];
+      const yy = nid.slice(1, 3);
+      const mm = nid.slice(3, 5);
+      const dd = nid.slice(5, 7);
+
+      let century = null;
+      if (centuryDigit === "2") century = 1900;
+      else if (centuryDigit === "3") century = 2000;
+      else return null;
+
+      const year = century + parseInt(yy, 10);
+      const month = parseInt(mm, 10);
+      const day = parseInt(dd, 10);
+
+      if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+
+      const testDate = new Date(Date.UTC(year, month - 1, day));
+      if (
+        testDate.getUTCFullYear() !== year ||
+        testDate.getUTCMonth() !== month - 1 ||
+        testDate.getUTCDate() !== day
+      ) {
+        return null;
+      }
+
+      return {
+        isoDate: `${year}-${mm}-${dd}`,
+        year
+      };
+    }
+
+    function extractNationalIdFromText(rawText) {
+      const ascii = normalizeDigitsToAscii(rawText);
+      // البحث عن تسلسلات أرقام بطول 14 رقماً (أو مقسمة بمسافات/شرطات)
+      const directMatches = ascii.match(/[23]\d{13}/g) || [];
+      for (const candidate of directMatches) {
+        const parsed = parseEgyptianNationalId(candidate);
+        if (parsed) {
+          return { nationalId: candidate, ...parsed };
+        }
+      }
+
+      const compact = ascii.replace(/[^0-9]/g, "");
+      const compactMatches = compact.match(/[23]\d{13}/g) || [];
+      for (const candidate of compactMatches) {
+        const parsed = parseEgyptianNationalId(candidate);
+        if (parsed) {
+          return { nationalId: candidate, ...parsed };
+        }
+      }
+
+      return null;
+    }
+
+    async function loadFileAsImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error("تعذر قراءة ملف الصورة."));
+          img.src = reader.result;
+        };
+        reader.onerror = () => reject(new Error("تعذر فتح ملف الصورة."));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // تجهيز صورة عالية التباين لزيادة دقة قراءة الأرقام في شهادة الميلاد
+    function buildHighContrastCanvasForOCR(img) {
+      const targetW = Math.min(2000, Math.max(1200, img.width * 1.5));
+      const scale = targetW / img.width;
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imgData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+        const boosted = gray > 155 ? 255 : Math.max(0, (gray - 80) * 1.6);
+        data[i] = data[i + 1] = data[i + 2] = boosted;
+      }
+      ctx.putImageData(imgData, 0, 0);
+      return canvas;
+    }
+
+    window.syncBirthYearFromDate = () => {
+      const val = document.getElementById("birthDate").value;
+      extractedBirthYear = val ? val.slice(0, 4) : "";
+    };
+
+    window.handleBirthCertChange = async (inputEl) => {
+      const file = inputEl?.files?.[0];
+      const nidInput = document.getElementById("nationalId");
+      const dobInput = document.getElementById("birthDate");
+
+      if (!file) {
+        setOcrStatus("", "");
+        return;
+      }
+      if (!file.type || !file.type.startsWith("image/")) {
+        setOcrStatus("error", "يُسمح برفع ملفات الصور فقط لشهادة الميلاد.");
+        return;
+      }
+      if (typeof Tesseract === "undefined") {
+        setOcrStatus("error", "تعذر تشغيل أداة قراءة شهادة الميلاد؛ يرجى التأكد من الاتصال بالإنترنت أو إعادة تحميل الصفحة.");
+        return;
+      }
+
+      isReadingCert = true;
+      setOcrStatus("info", "⏳ جاري قراءة شهادة الميلاد واستخراج الرقم القومي وتاريخ الميلاد تلقائياً...");
+
+      try {
+        const img = await loadFileAsImage(file);
+        const ocrCanvas = buildHighContrastCanvasForOCR(img);
+        const { data } = await Tesseract.recognize(ocrCanvas, "ara+eng", {
+          tessedit_char_whitelist: "0123456789٠١٢٣٤٥٦٧٨٩"
+        });
+
+        const result = extractNationalIdFromText(data?.text || "");
+        if (result) {
+          nidInput.value = result.nationalId;
+          dobInput.value = result.isoDate;
+          extractedBirthYear = String(result.year);
+          setOcrStatus(
+            "success",
+            `✅ تم استخراج الرقم القومي (${result.nationalId}) وتاريخ الميلاد (${result.isoDate}) تلقائياً من شهادة الميلاد. يُرجى مراجعة صحتهما.`
+          );
+        } else {
+          setOcrStatus(
+            "error",
+            "⚠️ تعذر قراءة الرقم القومي وتاريخ الميلاد بوضوح من شهادة الميلاد بسبب جودة التصوير أو الإضاءة. يُرجى تصوير شهادة الميلاد بوضوح وإضاءة جيدة أو إدخال البيانات يدوياً مع مراجعتها."
+          );
+        }
+      } catch (err) {
+        console.error(err);
+        setOcrStatus(
+          "error",
+          "⚠️ تعذر قراءة شهادة الميلاد بسبب جودة الصورة؛ يُرجى إعادة رفع صورة أوضح لشهادة الميلاد."
+        );
+      } finally {
+        isReadingCert = false;
+      }
+    };
 
     window.updateSelectedAgeNote = () => {
       const val = document.getElementById("level").value;
@@ -292,17 +485,7 @@
         throw new Error("يُسمح برفع الصور فقط.");
       }
 
-      const loadedImg = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const img = new Image();
-          img.onload = () => resolve(img);
-          img.onerror = () => reject(new Error("تعذر قراءة ملف الصورة."));
-          img.src = reader.result;
-        };
-        reader.onerror = () => reject(new Error("تعذر فتح ملف الصورة."));
-        reader.readAsDataURL(file);
-      });
+      const loadedImg = await loadFileAsImage(file);
 
       const attempts = [
         { maxW: 700, q: 0.55 },
@@ -328,9 +511,15 @@
     }
 
     window.submitRegistration = async () => {
+      if (isReadingCert) {
+        showToast("يرجى الانتظار حتى انتهاء قراءة شهادة الميلاد تلقائياً", true);
+        return;
+      }
+
       const btn = document.getElementById("submit-btn");
       const fullNameEl = document.getElementById("fullName");
       const nationalIdEl = document.getElementById("nationalId");
+      const birthDateEl = document.getElementById("birthDate");
       const phoneEl = document.getElementById("phone");
       const levelEl = document.getElementById("level");
       const birthCertEl = document.getElementById("birthCert");
@@ -338,8 +527,9 @@
       const disqConfirmEl = document.getElementById("disqualificationConfirm");
 
       const fullName = fullNameEl.value.trim();
-      const nationalId = nationalIdEl.value.trim();
-      const phone = phoneEl.value.trim();
+      const nationalId = normalizeDigitsToAscii(nationalIdEl.value).trim();
+      const birthDate = birthDateEl.value.trim();
+      const phone = normalizeDigitsToAscii(phoneEl.value).trim();
       const level = levelEl.value;
 
       if (!fullName) {
@@ -347,9 +537,19 @@
         fullNameEl.focus();
         return;
       }
-      if (!/^\d{14}$/.test(nationalId)) {
-        showToast("يرجى إدخال الرقم القومي المكون من ١٤ رقماً بشكل صحيح", true);
+      if (!birthCertEl.files || !birthCertEl.files[0]) {
+        showToast("إرفاق صورة شهادة الميلاد إجباري لإتمام التسجيل", true);
+        birthCertEl.focus();
+        return;
+      }
+      if (!/^\d{14}$/.test(nationalId) || !parseEgyptianNationalId(nationalId)) {
+        showToast("يرجى التأكد من صحة الرقم القومي المكون من ١٤ رقماً", true);
         nationalIdEl.focus();
+        return;
+      }
+      if (!birthDate) {
+        showToast("يرجى التأكد من تسجيل تاريخ الميلاد", true);
+        birthDateEl.focus();
         return;
       }
       if (!/^01[0125][0-9]{8}$/.test(phone)) {
@@ -360,11 +560,6 @@
       if (!level) {
         showToast("يرجى اختيار المستوى المتقدم إليه", true);
         levelEl.focus();
-        return;
-      }
-      if (!birthCertEl.files || !birthCertEl.files[0]) {
-        showToast("إرفاق صورة شهادة الميلاد إجباري لإتمام التسجيل", true);
-        birthCertEl.focus();
         return;
       }
       if (!confirmEl.checked) {
@@ -397,6 +592,8 @@
           code,
           fullName,
           nationalId,
+          birthDate,
+          birthYear: birthDate.slice(0, 4) || extractedBirthYear,
           phone,
           level,
           birthCertImage,
@@ -425,6 +622,7 @@
         const successCard = document.getElementById("success-card");
         successCard.classList.remove("hidden");
         document.getElementById("reg-form").reset();
+        setOcrStatus("", "");
         updateSelectedAgeNote();
         successCard.scrollIntoView({ behavior: "smooth" });
         showToast("تم التسجيل وحفظ البيانات في السحابة بنجاح!");
