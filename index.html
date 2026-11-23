@@ -130,13 +130,25 @@
             </p>
           </div>
 
-          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5">
-            <label class="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" id="residentConfirm" required class="mt-1 w-5 h-5 accent-emerald-700 rounded" />
-              <span class="text-sm font-semibold text-amber-950">
-                أقر بأن المتسابق من أبناء ومقيمي <strong>قرية محلة سبك</strong> ومطابق لشرط السن الخاص بالمستوى المختار، وأن جميع البيانات وصورة شهادة الميلاد المرفقة صحيحة ومطابقة للأوراق الرسمية، وفي حالة مخالفة أي شرط من شروط المسابقة يحق للجنة المنظمة استبعاد المتقدم دون الرجوع إليه.
-              </span>
-            </label>
+          <!-- الإقرارات -->
+          <div class="space-y-2.5">
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="residentConfirm" required class="mt-1 w-5 h-5 accent-emerald-700 rounded" />
+                <span class="text-sm font-semibold text-amber-950">
+                  أقر بأن المتسابق من أبناء ومقيمي <strong>قرية محلة سبك</strong> ومطابق لشرط السن الخاص بالمستوى المختار، وأن جميع البيانات وصورة شهادة الميلاد المرفقة صحيحة ومطابقة للأوراق الرسمية.
+                </span>
+              </label>
+            </div>
+
+            <div class="bg-red-50/80 border border-red-200 rounded-xl p-3.5">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="disqualificationConfirm" required class="mt-1 w-5 h-5 accent-red-700 rounded" />
+                <span class="text-sm font-bold text-red-950">
+                  أقر بأنه في حالة مخالفة أي شرط من شروط المسابقة يحق للجنة المنظمة استبعاد المتقدم دون الرجوع إليه.
+                </span>
+              </label>
+            </div>
           </div>
 
           <button type="button" id="submit-btn" onclick="submitRegistration()"
@@ -323,6 +335,7 @@
       const levelEl = document.getElementById("level");
       const birthCertEl = document.getElementById("birthCert");
       const confirmEl = document.getElementById("residentConfirm");
+      const disqConfirmEl = document.getElementById("disqualificationConfirm");
 
       const fullName = fullNameEl.value.trim();
       const nationalId = nationalIdEl.value.trim();
@@ -357,6 +370,11 @@
       if (!confirmEl.checked) {
         showToast("يرجى تأكيد الإقرار بالشروط والإقامة في قرية محلة سبك", true);
         confirmEl.focus();
+        return;
+      }
+      if (!disqConfirmEl.checked) {
+        showToast("يرجى الموافقة على إقرار استبعاد اللجنة عند مخالفة أي شرط", true);
+        disqConfirmEl.focus();
         return;
       }
 
